@@ -132,6 +132,21 @@ skills:
         - 'C:\Users\jeferson.berlim\source\repos\ndp-darklaunch'
       enabled: true
 
+    - id: bilingual-editorial-output
+      path: 01-skills/custom/bilingual-editorial-output
+      entrypoint: 01-skills/custom/bilingual-editorial-output/SKILL.md
+      purpose: Produzir primeiro a versao completa em pt-BR e depois uma adaptacao editorial nativa em ingles no mesmo arquivo.
+      channels: [medium, linkedin]
+      inputs:
+        - .online-writing
+        - 03-referencias
+        - 06-conhecimentos
+        - 07-dados
+      outputs:
+        - 02-conteudos/02-rascunhos/medium
+        - 02-conteudos/02-rascunhos/linkedin
+      enabled: true
+
 knowledge:
   writer_profile:
     path: .online-writing
