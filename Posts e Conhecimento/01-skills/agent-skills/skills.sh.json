@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "title": "Inspect & Debug Agents",
+      "description": "See what Claude Code is doing: session context-window reports, memory, loaded context, and fleet-wide transcript audits.",
+      "skills": ["session-report", "memory-view", "context-doctor", "harness-doctor"]
+    },
+    {
+      "title": "Coding Workflows",
+      "description": "Coding workflow patterns: product taste for what to build, scaffolding new projects, instrumenting services so production is answerable, writing pull requests and issues.",
+      "skills": ["product", "new-project", "observability", "full-cycle", "pr-issue", "media-cdn"]
+    },
+    {
+      "title": "Communication",
+      "description": "Writing style for every audience: output a human will read, instructions the agent will execute, and published prose written for readers.",
+      "skills": ["agent-to-human", "human-to-agent", "writing-for-readers"]
+    },
+    {
+      "title": "Video",
+      "description": "Video editing by conversation: tighten recordings by cutting fillers and dead air without changing what is said.",
+      "skills": ["clean-cut"]
+    }
+  ],
+  "notGrouped": "bottom"
+}

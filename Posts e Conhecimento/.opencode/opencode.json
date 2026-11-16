@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md",
+    "config.yml"
+  ],
+  "skills": [
+    "./.opencode/skills",
+    "./01-skills"
+  ]
+}

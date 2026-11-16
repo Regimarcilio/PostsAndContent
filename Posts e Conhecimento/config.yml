@@ -1,0 +1,257 @@
+# Catalogo do repositorio editorial.
+# Este arquivo registra capacidades e fontes para OpenCode, Codex e outros agentes.
+# Os detalhes de execucao continuam nos SKILL.md das skills correspondentes.
+
+config_version: 1
+
+project:
+  id: posts-e-conhecimento
+  name: Repositorio de Conteudo
+  type: editorial-content-repository
+  default_language: pt-BR
+  supported_languages:
+    - pt-BR
+    - en
+  description: Criacao, revisao e organizacao de conteudo para Medium e LinkedIn.
+  approval_required_for:
+    - publication
+    - scheduling
+    - external_send
+
+paths:
+  inbox: 00-inbox
+  skills: 01-skills
+  content:
+    root: 02-conteudos
+    ideas: 02-conteudos/01-ideias
+    drafts:
+      medium: 02-conteudos/02-rascunhos/medium
+      linkedin: 02-conteudos/02-rascunhos/linkedin
+    review: 02-conteudos/03-revisao
+    published:
+      medium: 02-conteudos/04-publicados/medium
+      linkedin: 02-conteudos/04-publicados/linkedin
+  references: 03-referencias
+  media: 04-midias
+  archive: 05-arquivo
+  knowledge: 06-conhecimentos
+  data: 07-dados
+  writer_profile: .online-writing
+  work: work
+
+agents:
+  instruction_file: AGENTS.md
+  catalog_file: config.yml
+  required_behavior:
+    - read_project_instructions
+    - load_only_relevant_skills
+    - preserve_source_provenance
+    - request_human_approval_before_external_action
+  default_output_language: pt-BR
+
+skills:
+  bundled:
+    - id: online-writing
+      path: 01-skills/online-writing
+      entrypoint: 01-skills/online-writing/README.md
+      purpose: Descoberta editorial, ideacao, escrita, revisao e producao de textos longos.
+      channels: [medium]
+      inputs:
+        - .online-writing
+        - 03-referencias
+        - 06-conhecimentos
+        - 07-dados
+      outputs:
+        - 02-conteudos/01-ideias
+        - 02-conteudos/02-rascunhos/medium
+      enabled: true
+
+    - id: linkedin-skill
+      path: 01-skills/linkedin
+      entrypoint: 01-skills/linkedin/skills/linkedin-skill/SKILL.md
+      purpose: Criacao, verificacao, preview e preparacao de posts para LinkedIn.
+      channels: [linkedin]
+      inputs:
+        - .online-writing
+        - 03-referencias
+        - 04-midias
+        - 06-conhecimentos
+        - 07-dados
+        - work
+      outputs:
+        - 02-conteudos/02-rascunhos/linkedin
+        - work
+      external_action_requires_approval: true
+      enabled: true
+
+    - id: agent-skills
+      path: 01-skills/agent-skills
+      entrypoint: 01-skills/agent-skills/README.md
+      purpose: Workflows auxiliares de comunicacao, produto, inspeccao, debug e video.
+      channels: [medium, linkedin]
+      inputs:
+        - AGENTS.md
+        - config.yml
+        - 06-conhecimentos
+        - 07-dados
+      outputs:
+        - work
+        - 02-conteudos
+      enabled: true
+
+  custom:
+    - id: editorial-channel-router
+      path: .opencode/skills/editorial-channel-router
+      entrypoint: .opencode/skills/editorial-channel-router/SKILL.md
+      purpose: Perguntar o canal antes da criacao e encaminhar o conteudo para LinkedIn, Medium ou ambos.
+      channels: [medium, linkedin]
+      inputs:
+        - AGENTS.md
+        - config.yml
+        - .online-writing
+        - 00-inbox
+        - 02-conteudos/01-ideias
+        - 03-referencias
+        - 06-conhecimentos
+        - 07-dados
+      outputs:
+        - 02-conteudos/02-rascunhos/medium
+        - 02-conteudos/02-rascunhos/linkedin
+      enabled: true
+
+knowledge:
+  writer_profile:
+    path: .online-writing
+    kind: first-party-editorial-profile
+    files:
+      - purpose.md
+      - expertise.md
+      - buckets.md
+      - tonality.md
+      - stil.md
+    optional: true
+  collections:
+    - id: references
+      path: 03-referencias
+      kind: source-notes
+      origin_required: true
+      citation_required: true
+      enabled: true
+    - id: durable-knowledge
+      path: 06-conhecimentos
+      kind: reusable-editorial-knowledge
+      expected_formats: [md, txt, yaml, json]
+      origin_required: true
+      last_verified_required: true
+      enabled: true
+  custom: []
+  # Adicione conceitos, projetos, casos, glossarios ou dominios novos aqui.
+
+data:
+  directories:
+    datasets: 07-dados/datasets
+    metrics: 07-dados/metricas
+    imports: 07-dados/importados
+  sources:
+    - id: linkedin-workspace
+      path: work
+      kind: generated-working-artifacts
+      origin: linkedin-skill
+      last_verified: null
+      sensitivity: internal
+      optional: true
+      enabled: true
+    - id: linkedin-past-posts
+      path: work/past-posts.txt
+      kind: first-party-writing-history
+      origin: user
+      last_verified: null
+      sensitivity: personal
+      optional: true
+      enabled: true
+  custom: []
+  # Registre cada dataset ou exportacao antes de usa-lo como evidencia.
+
+channels:
+  medium:
+    enabled: true
+    draft_path: 02-conteudos/02-rascunhos/medium
+    published_path: 02-conteudos/04-publicados/medium
+    skill_ids: [online-writing]
+    review_required: true
+  linkedin:
+    enabled: true
+    draft_path: 02-conteudos/02-rascunhos/linkedin
+    published_path: 02-conteudos/04-publicados/linkedin
+    skill_ids: [linkedin-skill]
+    review_required: true
+    scheduling_requires_approval: true
+  custom: []
+
+workflows:
+  intake:
+    steps:
+      - capture_in_00-inbox_or_ideas
+      - register_source
+      - classify_knowledge_and_data
+      - choose_channel
+  medium-draft:
+    skill_ids: [online-writing]
+    input_paths:
+      [00-inbox, 02-conteudos/01-ideias, 03-referencias, 06-conhecimentos]
+    output_path: 02-conteudos/02-rascunhos/medium
+    approval_gate: human_review
+  linkedin-draft:
+    skill_ids: [linkedin-skill]
+    input_paths:
+      [
+        00-inbox,
+        02-conteudos/01-ideias,
+        03-referencias,
+        04-midias,
+        06-conhecimentos,
+        07-dados,
+      ]
+    output_path: 02-conteudos/02-rascunhos/linkedin
+    operational_path: work
+    approval_gate: human_review
+  publish:
+    allowed_after:
+      - human_approval
+      - factual_review
+      - source_review
+      - link_review
+    approval_gate: explicit_user_confirmation
+  custom:
+    - id: editorial-content-creation
+      command: .opencode/commands/criar-conteudo.md
+      purpose: Criar rascunhos editoriais com escolha explicita de canal.
+      channels: [medium, linkedin]
+      approval_gate: human_review
+
+content:
+  naming:
+    pattern: YYYY-MM-DD-slug-do-conteudo.md
+    slug_style: lowercase-kebab-case
+  metadata:
+    recommended:
+      - title
+      - channel
+      - status
+      - created_at
+      - updated_at
+      - sources
+      - claims_to_verify
+  statuses:
+    - idea
+    - draft
+    - review
+    - approved
+    - published
+    - archived
+  quality_gates:
+    - claims_have_sources_or_are_marked_as_opinion
+    - numbers_are_verifiable
+    - links_are_reviewed
+    - media_rights_are_known
+    - channel_constraints_are_checked
