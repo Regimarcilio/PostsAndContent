@@ -119,6 +119,19 @@ skills:
         - 02-conteudos/02-rascunhos/linkedin
       enabled: true
 
+    - id: ndd-pulse-repository-router
+      path: 01-skills/custom/ndd-pulse-repository-router
+      entrypoint: 01-skills/custom/ndd-pulse-repository-router/SKILL.md
+      purpose: Direcionar tarefas sobre NDD Pulse, Pulse, Billing e licencas legadas para o repositorio local canonico.
+      channels: [medium, linkedin]
+      inputs:
+        - AGENTS.md
+        - config.yml
+        - 'C:\Users\jeferson.berlim\source\repos\ndp-darklaunch'
+      outputs:
+        - 'C:\Users\jeferson.berlim\source\repos\ndp-darklaunch'
+      enabled: true
+
 knowledge:
   writer_profile:
     path: .online-writing
