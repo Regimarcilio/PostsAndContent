@@ -176,6 +176,22 @@ skills:
         - 02-conteudos/03-revisao
       enabled: true
 
+    - id: linkedin-max-detail
+      path: 01-skills/custom/linkedin-max-detail
+      entrypoint: 01-skills/custom/linkedin-max-detail/SKILL.md
+      purpose: Usar o maximo de detalhes uteis sobre o tema sem ultrapassar 3.000 caracteres no LinkedIn.
+      channels: [linkedin]
+      inputs:
+        - 02-conteudos/01-ideias
+        - 02-conteudos/02-rascunhos/linkedin
+        - 03-referencias
+        - 06-conhecimentos
+        - 07-dados
+      outputs:
+        - 02-conteudos/02-rascunhos/linkedin
+        - 02-conteudos/03-revisao
+      enabled: true
+
 knowledge:
   writer_profile:
     path: .online-writing
@@ -240,7 +256,7 @@ channels:
     enabled: true
     draft_path: 02-conteudos/02-rascunhos/linkedin
     published_path: 02-conteudos/04-publicados/linkedin
-    skill_ids: [linkedin-skill, linkedin-character-limit]
+    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail]
     review_required: true
     scheduling_requires_approval: true
   custom: []
@@ -259,7 +275,7 @@ workflows:
     output_path: 02-conteudos/02-rascunhos/medium
     approval_gate: human_review
   linkedin-draft:
-    skill_ids: [linkedin-skill, linkedin-character-limit]
+    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail]
     input_paths:
       [
         00-inbox,
@@ -314,3 +330,4 @@ content:
     - channel_constraints_are_checked
     - animated_media_uses_us_english
     - linkedin_character_limit_checked
+    - linkedin_content_maximizes_useful_detail
