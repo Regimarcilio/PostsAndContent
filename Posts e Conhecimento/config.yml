@@ -162,6 +162,20 @@ skills:
         - work
       enabled: true
 
+    - id: linkedin-character-limit
+      path: 01-skills/custom/linkedin-character-limit
+      entrypoint: 01-skills/custom/linkedin-character-limit/SKILL.md
+      purpose: Garantir que cada postagem do LinkedIn tenha no maximo 3.000 caracteres, com contagem explicita por idioma.
+      channels: [linkedin]
+      inputs:
+        - 02-conteudos/02-rascunhos/linkedin
+        - 03-referencias
+        - 07-dados
+      outputs:
+        - 02-conteudos/02-rascunhos/linkedin
+        - 02-conteudos/03-revisao
+      enabled: true
+
 knowledge:
   writer_profile:
     path: .online-writing
@@ -226,7 +240,7 @@ channels:
     enabled: true
     draft_path: 02-conteudos/02-rascunhos/linkedin
     published_path: 02-conteudos/04-publicados/linkedin
-    skill_ids: [linkedin-skill]
+    skill_ids: [linkedin-skill, linkedin-character-limit]
     review_required: true
     scheduling_requires_approval: true
   custom: []
@@ -245,7 +259,7 @@ workflows:
     output_path: 02-conteudos/02-rascunhos/medium
     approval_gate: human_review
   linkedin-draft:
-    skill_ids: [linkedin-skill]
+    skill_ids: [linkedin-skill, linkedin-character-limit]
     input_paths:
       [
         00-inbox,
@@ -299,3 +313,4 @@ content:
     - media_rights_are_known
     - channel_constraints_are_checked
     - animated_media_uses_us_english
+    - linkedin_character_limit_checked
