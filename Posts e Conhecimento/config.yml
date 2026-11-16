@@ -147,6 +147,21 @@ skills:
         - 02-conteudos/02-rascunhos/linkedin
       enabled: true
 
+    - id: animated-content-us-english
+      path: 01-skills/custom/animated-content-us-english
+      entrypoint: 01-skills/custom/animated-content-us-english/SKILL.md
+      purpose: Manter todos os textos visiveis de GIFs, videos e infografias animadas em US English.
+      channels: [medium, linkedin]
+      inputs:
+        - 03-referencias
+        - 04-midias
+        - 06-conhecimentos
+        - 07-dados
+      outputs:
+        - 04-midias
+        - work
+      enabled: true
+
 knowledge:
   writer_profile:
     path: .online-writing
@@ -283,3 +298,4 @@ content:
     - links_are_reviewed
     - media_rights_are_known
     - channel_constraints_are_checked
+    - animated_media_uses_us_english
