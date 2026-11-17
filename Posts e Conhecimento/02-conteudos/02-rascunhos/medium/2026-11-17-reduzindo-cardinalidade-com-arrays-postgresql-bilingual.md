@@ -4,6 +4,8 @@
 
 *Como uma representação mensal preserva a leitura diária sem continuar pagando o custo de uma linha por dia.*
 
+![Capa: valores diários reunidos em uma estrutura mensal](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-hero.jpg)
+
 Uma tabela de consumo pode crescer por um motivo que parece inocente: as mesmas dimensões se repetem todos os dias. Quando cliente, produto, recurso e tipo mudam pouco, o tempo passa a ser representado por mais linhas — mesmo quando a consulta do negócio pensa em meses.
 
 Vale uma precisão importante: o problema não era simplesmente uma coluna de baixa cardinalidade. Era a baixa variedade da combinação contextual, multiplicada pela dimensão diária. A mesma chave aparecia repetidamente, uma vez por dia, e a tabela física carregava essa repetição para cada consulta de faturamento.
@@ -32,6 +34,8 @@ monthly_consumption
 └── month_last_value
 ```
 
+![Comparação entre a tabela diária e a representação mensal com numeric[31]](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg)
+
 A posição do array corresponde ao dia. A primeira posição representa o primeiro dia do mês; a trigésima primeira, o último possível. Dias sem leitura permanecem `NULL`. Isso é diferente de zero: zero é uma leitura válida, enquanto `NULL` significa que não houve leitura naquele dia.
 
 O array não substitui o modelo relacional: a chave continua em colunas filtráveis e indexáveis. Somente o eixo diário, posicional e limitado, vira vetor.
@@ -45,6 +49,8 @@ Considere uma chave que recebe uma leitura por dia durante um mês:
 | Linhas para a mesma chave no mês | 31 | 1 |
 | Valores diários preservados | 31 colunas/linhas | 31 posições no array |
 | Redução estrutural de linhas | — | aproximadamente 96,8% |
+
+![Infográfico: 31 linhas diárias reunidas em um registro mensal](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png)
 
 Essa é uma redução de representação, não uma promessa automática de latência. A fonte técnica observou uma tabela bruta na ordem de dezenas de gigabytes e estimou a representação mensal na ordem de poucos gigabytes, incluindo índices. A estimativa não substitui uma medição de produção.
 
@@ -64,7 +70,11 @@ Terceiro, a leitura conhece a fronteira do período. Se o intervalo cobre o mês
 
 Isso permite manter a regra de soma, máximo e acumulado sem transformar todos os meses em uma sequência de linhas artificiais.
 
+![Animação: linhas diárias compactadas em uma linha mensal](../../../04-midias/monthly-array-cardinality/rows-to-array.gif)
+
 ## Períodos parciais exigem semântica explícita
+
+![Diagrama de consulta para mês completo e período parcial](../../../04-midias/monthly-array-cardinality/period-boundary-array.svg)
 
 A parte mais importante não foi declarar `numeric[]`. Foi definir o que cada posição significa e como ela participa do cálculo.
 
@@ -98,6 +108,8 @@ Neste caso, a mudança funcionou porque o modelo passou a refletir a pergunta re
 
 *How a monthly representation preserves daily readings without continuing to pay the cost of one row per day.*
 
+![Cover: daily values gathered into a monthly structure](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-hero.jpg)
+
 A consumption table can grow for an innocent-looking reason: the same dimensions repeat every day. When customer, product, resource, and volume type change rarely, time is represented by more rows—even when the business query thinks in months.
 
 One distinction matters: this was not simply a low-cardinality column problem. It was a low-variety contextual key multiplied by a daily dimension. The same key appeared repeatedly, once per day, and the physical table carried that repetition into every billing query.
@@ -126,6 +138,8 @@ monthly_consumption
 └── month_last_value
 ```
 
+![Comparison of the daily table and monthly representation with numeric[31]](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg)
+
 The array position corresponds to the day. The first position represents the first day of the month; the thirty-first represents the last possible day. Days without a reading remain `NULL`. That is different from zero: zero is a valid reading, while `NULL` means no reading was received for that day.
 
 The array does not replace the relational model: the key remains in filterable, indexable columns. Only the bounded, positional daily axis becomes a vector.
@@ -139,6 +153,8 @@ Consider a key that receives one reading per day during a month:
 | Rows for the same key in the month | 31 | 1 |
 | Daily values preserved | 31 rows/columns | 31 array positions |
 | Structural row reduction | — | approximately 96.8% |
+
+![Infographic: 31 daily rows compacted into one monthly record](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png)
 
 This is a representation reduction, not an automatic latency promise. The technical source observed a raw table in the tens-of-gigabytes range and estimated the monthly representation in the low-single-digit-gigabyte range, including indexes. The estimate is not a production measurement.
 
@@ -158,7 +174,11 @@ Third, the read path understands the period boundary. If the interval covers a f
 
 This preserves the rules for sum, maximum, and accumulative readings without turning every month back into artificial daily rows.
 
+![Animation: daily rows compacted into one monthly row](../../../04-midias/monthly-array-cardinality/rows-to-array.gif)
+
 ## Partial periods require explicit semantics
+
+![Diagram of full-month and partial-period reads](../../../04-midias/monthly-array-cardinality/period-boundary-array.svg)
 
 The important part was not declaring `numeric[]`. It was defining what each position means and how it participates in the calculation.
 
@@ -191,9 +211,10 @@ The change worked because the model began to reflect the application's real ques
 
 ## Registro de mídias (nota interna — não publicar)
 
-| Mídia | Uso no artigo | Referência relativa ao draft |
+| Mídia | Posição/uso | Referência relativa ao draft |
 |---|---|---|
-| `monthly-array-cardinality-infographic.png` | Imagem principal | [abrir mídia](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png) |
-| `cardinality-before-after.svg` | Infográfico de apoio | [abrir mídia](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg) |
-| `period-boundary-array.svg` | Diagrama de períodos completos e parciais | [abrir mídia](../../../04-midias/monthly-array-cardinality/period-boundary-array.svg) |
-| `rows-to-array.gif` | Animação da compactação | [abrir mídia](../../../04-midias/monthly-array-cardinality/rows-to-array.gif) |
+| `monthly-array-cardinality-hero.jpg` | Capa do artigo | [abrir mídia](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-hero.jpg) |
+| `cardinality-before-after.svg` | Após a seção “A nova unidade de armazenamento é a chave mensal” | [abrir mídia](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg) |
+| `monthly-array-cardinality-infographic.png` | Após a tabela de escala, em “Um exemplo de escala: 31 linhas para 1” | [abrir mídia](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png) |
+| `period-boundary-array.svg` | No início de “Períodos parciais exigem semântica explícita” | [abrir mídia](../../../04-midias/monthly-array-cardinality/period-boundary-array.svg) |
+| `rows-to-array.gif` | Após a explicação dos três ganhos de modelagem | [abrir mídia](../../../04-midias/monthly-array-cardinality/rows-to-array.gif) |

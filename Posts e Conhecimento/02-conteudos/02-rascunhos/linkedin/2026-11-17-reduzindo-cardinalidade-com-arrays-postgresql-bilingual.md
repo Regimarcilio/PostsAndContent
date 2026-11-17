@@ -56,5 +56,6 @@ I wrote a longer Medium article about the approach, the trade-offs, and the vali
 
 | Mídia | Uso no post | Referência relativa ao draft |
 |---|---|---|
-| `monthly-array-cardinality-infographic.png` | Imagem principal | [abrir mídia](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png) |
-| `rows-to-array.gif` | Animação de apoio | [abrir mídia](../../../04-midias/monthly-array-cardinality/rows-to-array.gif) |
+| `monthly-array-cardinality-infographic.png` | Imagem estática principal recomendada para o LinkedIn | [abrir mídia](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png) |
+
+**LinkedIn:** usar o infográfico PNG como a imagem do post. O GIF é mídia de apoio do artigo do Medium.
