@@ -43,8 +43,8 @@ um conteúdo ainda não publicado.
 
 ## Formato obrigatório da referência
 
-Cada draft deve ter uma seção interna de rastreabilidade, preferencialmente ao
-final do arquivo:
+Cada draft que usar ou recomendar mídia deve ter uma seção interna de
+rastreabilidade, preferencialmente ao final do próprio arquivo:
 
 ```markdown
 ## Registro de mídias
@@ -62,6 +62,11 @@ Para conteúdo bilíngue, mantenha um único registro interno compartilhado entr
 as versões pt-BR e English. Não duplique a seção dentro dos dois blocos
 publicáveis. A seção é nota editorial e não faz parte do texto enviado ao
 canal.
+
+Não é necessário criar um arquivo separado em `03-referencias/` para registrar
+o uso de uma mídia. A referência inline no próprio post/artigo é a fonte de
+rastreabilidade para esta auditoria. Arquivos de `03-referencias/` podem
+documentar a origem editorial, mas não substituem o registro de mídia no draft.
 
 ## Convenções de uso
 
@@ -85,13 +90,15 @@ canal.
 Ao auditar, para cada mídia:
 
 1. normalize o caminho com separadores `/`;
-2. procure o caminho relativo, o nome do arquivo e referências Markdown/HTML
-   nos drafts;
-3. elimine falsos positivos causados por menções em comentários de ferramenta
+2. procure o caminho relativo, o nome do arquivo, referências Markdown/HTML e
+   registros na seção `## Registro de mídias` dos próprios drafts;
+3. não trate um arquivo separado em `03-referencias/` como evidência de uso da
+   mídia;
+4. elimine falsos positivos causados por menções em comentários de ferramenta
    ou por arquivos que não sejam os drafts selecionados;
-4. registre o canal em que a referência foi encontrada;
-5. informe linha(s) de referência quando possível;
-6. classifique o resultado como `Medium`, `LinkedIn`, `Ambos` ou `Sem uso`.
+5. registre o canal em que a referência foi encontrada;
+6. informe linha(s) de referência quando possível;
+7. classifique o resultado como `Medium`, `LinkedIn`, `Ambos` ou `Sem uso`.
 
 O resultado deve separar:
 

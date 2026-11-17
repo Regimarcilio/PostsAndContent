@@ -22,11 +22,15 @@ Considere somente estes formatos publicáveis:
 
 Para cada mídia:
 
-1. procure referências por caminho relativo, nome de arquivo e links Markdown
-   ou HTML nos drafts selecionados;
-2. registre o canal e a linha da referência;
-3. valide se o caminho apontado existe;
-4. classifique como `Medium`, `LinkedIn`, `Ambos` ou `Sem uso`.
+1. procure referências dentro dos próprios drafts selecionados, incluindo:
+   - imagens, links Markdown ou HTML e nomes de arquivo;
+   - uma seção interna `## Registro de mídias` ou equivalente no final do
+     post/artigo;
+2. não dependa de um arquivo separado em `03-referencias/` para considerar uma
+   mídia usada; a referência inline no próprio post/artigo é suficiente;
+3. registre o canal e a linha da referência;
+4. valide se o caminho apontado existe;
+5. classifique como `Medium`, `LinkedIn`, `Ambos` ou `Sem uso`.
 
 Entregue o resultado nesta estrutura:
 
