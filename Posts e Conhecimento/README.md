@@ -50,4 +50,6 @@ Repositorio pessoal para criar, revisar e publicar conteudo no Medium e no Linke
 
 Use `/criar-conteudo` para iniciar uma criacao. O fluxo pergunta obrigatoriamente se o destino e `LinkedIn`, `Medium` ou `Ambos` antes de escrever ou salvar qualquer rascunho.
 
+Ao concluir um artigo, o fluxo entrega uma prévia HTML em `work/previews/` com o post integral de LinkedIn e o artigo integral de Medium. Quando houver duas versões, cada canal tem seu próprio seletor de idioma. A [skill de prévia](01-skills/custom/editorial-preview/SKILL.md) descreve o comando de geração.
+
 Consulte o `SKILL.md` relevante antes de executar um fluxo. Os arquivos dentro de `01-skills/` sao fontes importadas e devem ser tratados como somente leitura, salvo quando a intencao for atualizar a skill.

@@ -209,6 +209,20 @@ skills:
         - work
       enabled: true
 
+    - id: editorial-preview
+      path: 01-skills/custom/editorial-preview
+      entrypoint: 01-skills/custom/editorial-preview/SKILL.md
+      purpose: Gerar uma prévia HTML bilíngue com o post integral de LinkedIn e o artigo integral de Medium.
+      channels: [medium, linkedin]
+      inputs:
+        - 02-conteudos/02-rascunhos/medium
+        - 02-conteudos/02-rascunhos/linkedin
+        - 04-midias
+        - work/previews
+      outputs:
+        - work/previews
+      enabled: true
+
 knowledge:
   writer_profile:
     path: .online-writing
@@ -267,13 +281,13 @@ channels:
     enabled: true
     draft_path: 02-conteudos/02-rascunhos/medium
     published_path: 02-conteudos/04-publicados/medium
-     skill_ids: [online-writing, media-reference-tracking]
+    skill_ids: [online-writing, media-reference-tracking]
     review_required: true
   linkedin:
     enabled: true
     draft_path: 02-conteudos/02-rascunhos/linkedin
     published_path: 02-conteudos/04-publicados/linkedin
-     skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking]
+    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking]
     review_required: true
     scheduling_requires_approval: true
   custom: []
@@ -286,13 +300,14 @@ workflows:
       - classify_knowledge_and_data
       - choose_channel
   medium-draft:
-     skill_ids: [online-writing, media-reference-tracking]
+    skill_ids: [online-writing, media-reference-tracking, editorial-preview]
+    final_step: render_editorial_preview
     input_paths:
       [00-inbox, 02-conteudos/01-ideias, 03-referencias, 06-conhecimentos]
     output_path: 02-conteudos/02-rascunhos/medium
     approval_gate: human_review
   linkedin-draft:
-     skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking]
+    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking]
     input_paths:
       [
         00-inbox,
@@ -315,8 +330,13 @@ workflows:
   custom:
     - id: editorial-content-creation
       command: .opencode/commands/criar-conteudo.md
-      purpose: Criar rascunhos editoriais com escolha explicita de canal.
+      purpose: Criar rascunhos editoriais com escolha explicita de canal e entregar a prévia ao concluir artigos.
       channels: [medium, linkedin]
+      steps:
+        - choose_channel
+        - create_and_review_drafts
+        - render_editorial_preview_when_article_created
+        - deliver_drafts_and_preview
       approval_gate: human_review
     - id: media-reference-audit
       command: .opencode/commands/listar-midias-sem-uso.md

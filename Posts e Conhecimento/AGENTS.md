@@ -91,7 +91,8 @@ Exemplo minimo:
 4. Crie o rascunho no diretorio do canal correto.
 5. Revise fatos, fontes, links, nomes, numeros, tom, direitos de uso e adequacao ao canal.
 6. Mova para `02-conteudos/03-revisao/` quando precisar de aprovacao ou revisao humana.
-7. Mova somente conteudo aprovado para `02-conteudos/04-publicados/`.
+7. Ao concluir a criação de um artigo, execute `01-skills/custom/editorial-preview/SKILL.md` e entregue o HTML com o post de LinkedIn e o artigo integral de Medium, inclusive quando o canal escolhido for só Medium.
+8. Mova somente conteudo aprovado para `02-conteudos/04-publicados/`.
 
 ## Seguranca editorial
 

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; media-src data:; style-src 'unsafe-inline'; script-src 'sha256-$script_hash'; base-uri 'none'; form-action 'none'">
+  <title>$title · Prévia editorial</title>
+  <style>
+    :root { color-scheme: light; --ink: #202124; --muted: #5c6470; --line: #dce1e5; --teal: #073b46; }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; background: #f5f6f7; color: var(--ink); font: 16px/1.55 system-ui, sans-serif; overflow-wrap: anywhere; }
+    .topbar { position: sticky; top: 0; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; align-items: center; padding: 12px 5vw; background: white; border-bottom: 1px solid var(--line); }
+    .topbar nav, .languages { display: flex; gap: 8px; flex-wrap: wrap; }
+    .topbar a, button { padding: 6px 13px; border: 1px solid var(--line); border-radius: 99px; background: white; color: var(--teal); font: 600 14px/1.5 system-ui, sans-serif; text-decoration: none; }
+    button { cursor: pointer; }
+    button[aria-pressed="true"] { background: var(--teal); color: white; border-color: var(--teal); }
+    a:focus-visible, button:focus-visible { outline: 3px solid #0b8f87; outline-offset: 3px; }
+    a { color: var(--teal); }
+    main { max-width: 980px; margin: auto; padding: 22px clamp(12px, 4vw, 32px) 58px; }
+    .intro { margin: 0 0 20px; font-size: clamp(28px, 5vw, 44px); line-height: 1.12; letter-spacing: -.035em; }
+    .channel { margin: 32px 0 56px; scroll-margin-top: 110px; }
+    .channel > h2 { font-size: 25px; margin: 0 0 12px; }
+    .languages { justify-content: flex-end; margin: 0 auto 12px; }
+    #linkedin .languages, .linkedin-panel { max-width: 560px; }
+    .linkedin-panel, .medium-panel { margin: auto; border: 1px solid var(--line); background: white; box-shadow: 0 3px 16px #15233a0c; }
+    .linkedin-panel { border-radius: 12px; padding: 18px; }
+    .profile { font-weight: 700; margin-bottom: 14px; }
+    .linkedin-panel .copy > :first-child { margin-top: 0; }
+    .medium-panel { padding: clamp(22px, 6vw, 70px); }
+    .article-title { margin: 0 0 15px; font: 700 clamp(31px, 5vw, 54px)/1.12 Georgia, serif; letter-spacing: -.035em; }
+    .subtitle { margin: 0 0 24px; color: var(--muted); font: 21px/1.4 Georgia, serif; }
+    .byline { padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+    .medium-panel .copy { font: 18px/1.72 Georgia, serif; }
+    .medium-panel .copy h2 { margin: 1.8em 0 .6em; line-height: 1.25; }
+    img, video, audio { display: block; max-width: 100%; margin: 16px auto; }
+    img, video { height: auto; border-radius: 5px; }
+    figure { margin: 26px 0; }
+    figcaption, .missing-media { color: var(--muted); font: 14px/1.5 system-ui, sans-serif; text-align: center; }
+    pre, table { display: block; max-width: 100%; overflow: auto; }
+    pre, :not(pre) > code { background: #f4f5f5; border-radius: 4px; }
+    pre { padding: 14px; font-size: 14px; }
+    table { border-collapse: collapse; }
+    th, td { text-align: start; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  </style>
+</head>
+<body>
+  <header class="topbar"><strong>Prévia editorial</strong><nav aria-label="Canais">$navigation</nav></header>
+  <main>
+    <h1 class="intro">$title</h1>
+    $sections
+  </main>
+  <script>$language_script</script>
+</body>
+</html>

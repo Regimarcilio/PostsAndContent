@@ -16,12 +16,13 @@ Regras obrigatorias:
    - Em qualquer canal, carregue tambem `media-reference-tracking` quando houver
      imagens, videos, GIFs ou outros assets em `04-midias`.
 5. Para LinkedIn, crie somente um rascunho no diretorio `02-conteudos/02-rascunhos/linkedin/`. Nao agende, publique, envie ou conecte contas.
-6. Para Medium, crie somente um rascunho no diretorio `02-conteudos/02-rascunhos/medium/`.
+6. Para Medium, crie somente um rascunho no diretorio `02-conteudos/02-rascunhos/medium/`. A etapa final prepara a adaptação de LinkedIn para a prévia.
 7. Para `Ambos`, salve um arquivo em cada diretorio de rascunhos. O texto de LinkedIn deve ser curto, especifico e com hook; o texto de Medium deve ser um artigo de 800 a 1.200 palavras, salvo quando a skill indicar que o material precisa ser dividido.
 8. Preserve a origem das afirmacoes. Nao invente fatos, numeros, fontes, depoimentos ou resultados. Marque `claims_to_verify` quando uma afirmacao exigir verificacao.
 9. Nao mova nada para `02-conteudos/04-publicados/` e nao execute qualquer acao externa sem aprovacao explicita posterior.
 10. Antes de concluir um draft com mídia, inclua a seção `Registro de mídias`
     com links relativos ao arquivo e confirme as referências com
     `.opencode/commands/listar-midias-sem-uso.md`.
+11. Depois de revisar e salvar o artigo de Medium, execute `01-skills/custom/editorial-preview/SKILL.md`. Para `Ambos`, use os dois rascunhos salvos. Para `Medium`, prepare a adaptação de LinkedIn em `work/previews/` e gere o mesmo HTML com os dois canais.
 
-Ao final, informe os caminhos dos rascunhos criados, o canal escolhido e quaisquer afirmacoes pendentes de verificacao.
+Ao final, entregue o link da prévia HTML quando houver artigo, os caminhos dos rascunhos criados, o canal escolhido e quaisquer afirmações pendentes de verificação.

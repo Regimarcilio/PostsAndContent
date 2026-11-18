@@ -64,6 +64,10 @@ Use as duas skills, tratando o material como uma fonte comum e os canais como en
 - salve cada entrega no diretorio correspondente;
 - se o material for insuficiente para uma das entregas, sinalize a limitacao em vez de preencher com invencoes.
 
+## Conclusão de artigo
+
+Após salvar o artigo de Medium, execute `01-skills/custom/editorial-preview/SKILL.md` e devolva o HTML com os dois canais. Se a escolha foi só Medium, prepare a versão complementar de LinkedIn em `work/previews/` para revisão.
+
 ## Limites de acao
 
 Esta skill cria rascunhos. Nunca publica, agenda, envia, move para `02-conteudos/04-publicados/` ou usa credenciais sem aprovacao explicita do usuario.
