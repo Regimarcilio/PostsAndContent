@@ -20,21 +20,11 @@ O problema aparecia na leitura. O faturamento precisava responder perguntas como
 
 A tabela tinha granularidade de evento diário, enquanto o leitor trabalhava com uma granularidade mensal ou com uma pequena janela entre duas datas. O armazenamento estava preservando detalhes, mas também estava cobrando o preço da repetição em toda leitura.
 
-## A nova unidade de armazenamento é a chave mensal
+## A chave mensal concentra o tempo sem apagar o significado diário
 
-A representação mensal mantém as dimensões usadas no lookup e troca a repetição de linhas por uma estrutura posicional:
+A representação mensal mantém as dimensões usadas no lookup e troca a repetição de linhas por uma estrutura posicional. A chave de negócio e o período continuam relacionais; os valores diários ficam agrupados em `numeric[31]`, acompanhados por agregados de leitura.
 
-```text
-monthly_consumption
-├── business_key: cliente + produto + recurso + tipo
-├── period: ano + mês
-├── daily_values: numeric[31]
-├── month_sum
-├── month_max
-└── month_last_value
-```
-
-![Comparação entre a tabela diária e a representação mensal com numeric[31]](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg)
+![Estrutura mensal: da repetição de linhas diárias para uma chave mensal com numeric[31]](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg)
 
 A posição do array corresponde ao dia. A primeira posição representa o primeiro dia do mês; a trigésima primeira, o último possível. Dias sem leitura permanecem `NULL`. Isso é diferente de zero: zero é uma leitura válida, enquanto `NULL` significa que não houve leitura naquele dia.
 
@@ -44,21 +34,15 @@ O array não substitui o modelo relacional: a chave continua em colunas filtráv
 
 Considere uma chave que recebe uma leitura por dia durante um mês:
 
-| Indicador | Modelo diário | Modelo mensal |
-|---|---:|---:|
-| Linhas para a mesma chave no mês | 31 | 1 |
-| Valores diários preservados | 31 colunas/linhas | 31 posições no array |
-| Redução estrutural de linhas | — | aproximadamente 96,8% |
-
 ![Infográfico: 31 linhas diárias reunidas em um registro mensal](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png)
 
-Essa é uma redução de representação, não uma promessa automática de latência. A fonte técnica observou uma tabela bruta na ordem de dezenas de gigabytes e estimou a representação mensal na ordem de poucos gigabytes, incluindo índices. A estimativa não substitui uma medição de produção.
+Essa é uma redução de representação, não uma promessa automática de latência. O material técnico observou uma tabela bruta na ordem de dezenas de gigabytes e estimou a representação mensal na ordem de poucos gigabytes, incluindo índices. A estimativa não substitui uma medição de produção.
 
-O mesmo cuidado vale para o tempo de consulta. Antes da troca, alguns cenários de faturamento chegavam perto de uma hora. Depois da troca, o PR não registra um benchmark público comparável. O que mudou foi o trabalho potencial da leitura: um mês completo usa o agregado armazenado; um período com corte busca as linhas mensais de borda e percorre apenas as posições necessárias do array.
+O mesmo cuidado vale para o tempo de consulta. Antes da troca, alguns cenários de faturamento chegavam perto de uma hora. O material técnico não registra um benchmark público comparável depois da mudança. O que mudou foi o trabalho potencial da leitura: um mês completo usa o agregado armazenado; um período com corte busca as linhas mensais de borda e percorre apenas as posições necessárias do array.
 
 A comparação correta mede o mesmo cenário antes e depois: tempo total, percentis, linhas lidas e buffers. O artigo pode afirmar a compactação estrutural, não inventar um tempo final.
 
-## O array não é o ganho sozinho
+## O ganho vem do contrato entre escrita e leitura
 
 O ganho de modelagem vem da combinação de três decisões.
 
@@ -94,7 +78,7 @@ No caso analisado, a troca de leitura foi condicionada à população histórica
 
 ## A regra prática
 
-Arrays do PostgreSQL fazem sentido quando o valor tem uma dimensão posicional bounded, o acesso normalmente acontece pela chave que o contém e os cálculos da estrutura podem ser mantidos consistentes.
+Arrays do PostgreSQL fazem sentido quando o valor tem uma dimensão posicional limitada, o acesso normalmente acontece pela chave que o contém e os cálculos da estrutura podem ser mantidos consistentes.
 
 Eles não substituem índices, não resolvem qualquer problema de cardinalidade e não devem esconder eventos que ainda precisam ser auditados individualmente.
 
@@ -124,21 +108,11 @@ The problem appeared during reads. Billing needed to answer questions such as �
 
 The table had daily-event granularity, while the reader worked with a monthly granularity or a small window between two dates. The storage preserved detail, but it also charged the cost of repetition on every read.
 
-## The new storage unit is the monthly key
+## The monthly key compacts time without losing daily meaning
 
-The monthly representation keeps the dimensions used by the lookup and replaces repeated rows with a positional structure:
+The monthly representation keeps the dimensions used by the lookup and replaces repeated rows with a positional structure. The business key and period remain relational; daily values are grouped in `numeric[31]`, alongside derived reading aggregates.
 
-```text
-monthly_consumption
-├── business_key: customer + product + resource + type
-├── period: year + month
-├── daily_values: numeric[31]
-├── month_sum
-├── month_max
-└── month_last_value
-```
-
-![Comparison of the daily table and monthly representation with numeric[31]](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg)
+![Monthly structure: repeated daily rows become one monthly key with numeric[31]](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg)
 
 The array position corresponds to the day. The first position represents the first day of the month; the thirty-first represents the last possible day. Days without a reading remain `NULL`. That is different from zero: zero is a valid reading, while `NULL` means no reading was received for that day.
 
@@ -148,21 +122,15 @@ The array does not replace the relational model: the key remains in filterable, 
 
 Consider a key that receives one reading per day during a month:
 
-| Indicator | Daily model | Monthly model |
-|---|---:|---:|
-| Rows for the same key in the month | 31 | 1 |
-| Daily values preserved | 31 rows/columns | 31 array positions |
-| Structural row reduction | — | approximately 96.8% |
-
 ![Infographic: 31 daily rows compacted into one monthly record](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png)
 
-This is a representation reduction, not an automatic latency promise. The technical source observed a raw table in the tens-of-gigabytes range and estimated the monthly representation in the low-single-digit-gigabyte range, including indexes. The estimate is not a production measurement.
+This is a representation reduction, not an automatic latency promise. The technical material observed a raw table in the tens-of-gigabytes range and estimated the monthly representation in the low-single-digit-gigabyte range, including indexes. The estimate is not a production measurement.
 
-The same care applies to query time. Before the switch, some billing scenarios approached one hour. The change record does not publish a comparable after benchmark. What changed was the potential read work: a full month uses its stored aggregate; a cutoff period reads the monthly boundary rows and scans only the required array positions.
+The same care applies to query time. Before the switch, some billing scenarios approached one hour. The technical material does not publish a comparable after benchmark. What changed was the potential read work: a full month uses its stored aggregate; a cutoff period reads the monthly boundary rows and scans only the required array positions.
 
 The correct comparison measures the same scenario before and after: total time, percentiles, rows read, and buffers. The article can claim structural compaction, not invent a final query time.
 
-## The array is not the benefit by itself
+## The gain comes from the write-read contract
 
 The modeling benefit comes from three decisions working together.
 
@@ -214,7 +182,7 @@ The change worked because the model began to reflect the application's real ques
 | Mídia | Posição/uso | Referência relativa ao draft |
 |---|---|---|
 | `monthly-array-cardinality-hero.jpg` | Capa do artigo | [abrir mídia](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-hero.jpg) |
-| `cardinality-before-after.svg` | Após a seção “A nova unidade de armazenamento é a chave mensal” | [abrir mídia](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg) |
+| `cardinality-before-after.svg` | Após a seção “A chave mensal concentra o tempo sem apagar o significado diário” | [abrir mídia](../../../04-midias/monthly-array-cardinality/cardinality-before-after.svg) |
 | `monthly-array-cardinality-infographic.png` | Após a tabela de escala, em “Um exemplo de escala: 31 linhas para 1” | [abrir mídia](../../../04-midias/monthly-array-cardinality/monthly-array-cardinality-infographic.png) |
 | `period-boundary-array.svg` | No início de “Períodos parciais exigem semântica explícita” | [abrir mídia](../../../04-midias/monthly-array-cardinality/period-boundary-array.svg) |
 | `rows-to-array.gif` | Após a explicação dos três ganhos de modelagem | [abrir mídia](../../../04-midias/monthly-array-cardinality/rows-to-array.gif) |
