@@ -45,6 +45,11 @@ Repositorio pessoal para criar, revisar e publicar conteudo no Medium e no Linke
 - Medium e escrita online: `01-skills/online-writing/`
 - LinkedIn: `01-skills/linkedin/skills/linkedin-skill/`
 - Workflows auxiliares: `01-skills/agent-skills/`
+- Geração de imagens no Codex: `01-skills/custom/publication-image-generation/`
+
+As skills originais permanecem em `01-skills/`. Na raiz do repositório, `.agents/skills/`
+contém launchers pequenos para descoberta pelo Codex; eles apontam para estas fontes
+canônicas e preservam os caminhos relativos de scripts, referências e assets.
 
 ## Command local
 
@@ -53,3 +58,7 @@ Use `/criar-conteudo` para iniciar uma criacao. O fluxo pergunta obrigatoriament
 Ao concluir um artigo, o fluxo entrega uma prévia HTML em `work/previews/` com o post integral de LinkedIn e o artigo integral de Medium. Quando houver duas versões, cada canal tem seu próprio seletor de idioma. A [skill de prévia](01-skills/custom/editorial-preview/SKILL.md) descreve o comando de geração.
 
 Consulte o `SKILL.md` relevante antes de executar um fluxo. Os arquivos dentro de `01-skills/` sao fontes importadas e devem ser tratados como somente leitura, salvo quando a intencao for atualizar a skill.
+
+Para abrir o mesmo projeto no Codex e no OpenCode, use a raiz do repositório
+`PostsAndContent`. O adaptador OpenCode nessa raiz e as skills locais do Codex
+encaminham para este diretório. Veja `MULTIPLATFORM-SETUP.md` para detalhes.

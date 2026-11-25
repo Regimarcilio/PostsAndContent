@@ -119,19 +119,6 @@ skills:
         - 02-conteudos/02-rascunhos/linkedin
       enabled: true
 
-    - id: ndd-pulse-repository-router
-      path: 01-skills/custom/ndd-pulse-repository-router
-      entrypoint: 01-skills/custom/ndd-pulse-repository-router/SKILL.md
-      purpose: Direcionar tarefas sobre NDD Pulse, Pulse, Billing e licencas legadas para o repositorio local canonico.
-      channels: [medium, linkedin]
-      inputs:
-        - AGENTS.md
-        - config.yml
-        - 'C:\Users\jeferson.berlim\source\repos\ndp-darklaunch'
-      outputs:
-        - 'C:\Users\jeferson.berlim\source\repos\ndp-darklaunch'
-      enabled: true
-
     - id: bilingual-editorial-output
       path: 01-skills/custom/bilingual-editorial-output
       entrypoint: 01-skills/custom/bilingual-editorial-output/SKILL.md
@@ -223,6 +210,23 @@ skills:
         - work/previews
       enabled: true
 
+    - id: publication-image-generation
+      path: 01-skills/custom/publication-image-generation
+      entrypoint: 01-skills/custom/publication-image-generation/SKILL.md
+      purpose: Gerar no Codex imagens originais com a ferramenta GPT disponível e registrar os assets locais nos rascunhos.
+      channels: [medium, linkedin]
+      inputs:
+        - 02-conteudos/02-rascunhos/medium
+        - 02-conteudos/02-rascunhos/linkedin
+        - 03-referencias
+        - 04-midias
+      outputs:
+        - 04-midias
+        - 02-conteudos/02-rascunhos/medium
+        - 02-conteudos/02-rascunhos/linkedin
+      external_action_requires_approval: true
+      enabled: true
+
 knowledge:
   writer_profile:
     path: .online-writing
@@ -281,13 +285,13 @@ channels:
     enabled: true
     draft_path: 02-conteudos/02-rascunhos/medium
     published_path: 02-conteudos/04-publicados/medium
-    skill_ids: [online-writing, media-reference-tracking]
+    skill_ids: [online-writing, media-reference-tracking, publication-image-generation]
     review_required: true
   linkedin:
     enabled: true
     draft_path: 02-conteudos/02-rascunhos/linkedin
     published_path: 02-conteudos/04-publicados/linkedin
-    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking]
+    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking, publication-image-generation]
     review_required: true
     scheduling_requires_approval: true
   custom: []
@@ -300,14 +304,14 @@ workflows:
       - classify_knowledge_and_data
       - choose_channel
   medium-draft:
-    skill_ids: [online-writing, media-reference-tracking, editorial-preview]
+    skill_ids: [online-writing, media-reference-tracking, publication-image-generation, editorial-preview]
     final_step: render_editorial_preview
     input_paths:
       [00-inbox, 02-conteudos/01-ideias, 03-referencias, 06-conhecimentos]
     output_path: 02-conteudos/02-rascunhos/medium
     approval_gate: human_review
   linkedin-draft:
-    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking]
+    skill_ids: [linkedin-skill, linkedin-character-limit, linkedin-max-detail, media-reference-tracking, publication-image-generation]
     input_paths:
       [
         00-inbox,
@@ -335,6 +339,7 @@ workflows:
       steps:
         - choose_channel
         - create_and_review_drafts
+        - generate_images_in_codex_when_needed
         - render_editorial_preview_when_article_created
         - deliver_drafts_and_preview
       approval_gate: human_review

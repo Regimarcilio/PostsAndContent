@@ -20,9 +20,10 @@ Regras obrigatorias:
 7. Para `Ambos`, salve um arquivo em cada diretorio de rascunhos. O texto de LinkedIn deve ser curto, especifico e com hook; o texto de Medium deve ser um artigo de 800 a 1.200 palavras, salvo quando a skill indicar que o material precisa ser dividido.
 8. Preserve a origem das afirmacoes. Nao invente fatos, numeros, fontes, depoimentos ou resultados. Marque `claims_to_verify` quando uma afirmacao exigir verificacao.
 9. Nao mova nada para `02-conteudos/04-publicados/` e nao execute qualquer acao externa sem aprovacao explicita posterior.
-10. Antes de concluir um draft com mídia, inclua a seção `Registro de mídias`
+10. Quando a publicação precisar de uma imagem nova, encaminhe a geração ao Codex com `01-skills/custom/publication-image-generation/SKILL.md`. Se o fluxo estiver rodando no OpenCode, não simule uma chamada ao Codex: conclua o texto, marque a imagem como pendente e entregue o brief para geração em uma sessão Codex. O OpenCode pode revisar e referenciar o asset local, mas não deve gerar uma alternativa. Se a ferramenta GPT não estiver disponível no Codex, informe a limitação.
+11. Antes de concluir um draft com mídia, inclua a seção `Registro de mídias`
     com links relativos ao arquivo e confirme as referências com
     `.opencode/commands/listar-midias-sem-uso.md`.
-11. Depois de revisar e salvar o artigo de Medium, execute `01-skills/custom/editorial-preview/SKILL.md`. Para `Ambos`, use os dois rascunhos salvos. Para `Medium`, prepare a adaptação de LinkedIn em `work/previews/` e gere o mesmo HTML com os dois canais.
+12. Depois de revisar e salvar o artigo de Medium, execute `01-skills/custom/editorial-preview/SKILL.md`. Para `Ambos`, use os dois rascunhos salvos. Para `Medium`, prepare a adaptação de LinkedIn em `work/previews/` e gere o mesmo HTML com os dois canais. Se a imagem estiver pendente, não a represente como existente na prévia; informe que ela será atualizada depois da geração no Codex.
 
 Ao final, entregue o link da prévia HTML quando houver artigo, os caminhos dos rascunhos criados, o canal escolhido e quaisquer afirmações pendentes de verificação.

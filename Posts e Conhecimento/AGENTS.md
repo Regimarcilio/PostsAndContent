@@ -94,6 +94,16 @@ Exemplo minimo:
 7. Ao concluir a criação de um artigo, execute `01-skills/custom/editorial-preview/SKILL.md` e entregue o HTML com o post de LinkedIn e o artigo integral de Medium, inclusive quando o canal escolhido for só Medium.
 8. Mova somente conteudo aprovado para `02-conteudos/04-publicados/`.
 
+## Geracao de imagens
+
+- Codex e responsavel por gerar toda imagem original de publicacao usando a ferramenta de geracao de imagens GPT disponivel no runtime, em qualquer canal.
+- Use `01-skills/custom/publication-image-generation/SKILL.md` quando o conteudo precisar de uma imagem nova.
+- Salve os candidatos em `04-midias/<slug>/` e registre o caminho relativo no proprio rascunho, em `Registro de mídias`.
+- OpenCode pode revisar e referenciar assets gerados pelo Codex; nao gere nem componha uma nova imagem no OpenCode. Ao usar `linkedin-skill`, use as etapas de texto, verificacao e preview, mas encaminhe a criacao de assets estaticos ao Codex.
+- Codex tambem nao deve usar os scripts locais de renderizacao de imagem da skill de LinkedIn como substitutos do gerador GPT.
+- Se a ferramenta GPT nao estiver disponivel no runtime Codex atual, informe a limitacao e nao troque silenciosamente de provedor.
+- A geracao cria apenas assets locais de rascunho. Upload, agendamento e publicacao continuam exigindo aprovacao explicita.
+
 ## Seguranca editorial
 
 - Nunca invente fatos, metricas, fontes, depoimentos ou resultados.

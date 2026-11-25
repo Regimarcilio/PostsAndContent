@@ -1,6 +1,8 @@
 ---
 name: ndd-pulse-repository-router
 description: Use when a task concerns NDD Pulse, Pulse, Billing, legacy licensing, or legacy licenses; route the work to the canonical local NDD Pulse repository before inspecting or changing code.
+metadata:
+  opencode/autoinvoke: false
 ---
 
 # NDD Pulse Repository Router
