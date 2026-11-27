@@ -1,0 +1,21 @@
+{
+  "slug": "proto-002",
+  "briefHash": "58f9c277c64f211f",
+  "arquivos_gerados": [
+    "04-midias/proto-002/proto-002.prompt.txt",
+    "02-conteudos/02-rascunhos/linkedin/proto-002.md",
+    "02-conteudos/02-rascunhos/medium/proto-002.md",
+    "04-midias/proto-002/status.json"
+  ],
+  "modelo": null,
+  "tokens": {
+    "entrada": 0,
+    "saida": 0
+  },
+  "custo_estimado_usd": 0,
+  "latencia_ms": 0,
+  "imagem": {
+    "status": "pendente",
+    "motivo": "PENDENTE API: execução solicitada em --dry-run; chamada à Anthropic não realizada."
+  }
+}

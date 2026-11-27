@@ -35,7 +35,8 @@ async function main() {
   await fs.mkdir(mediaDir, { recursive: true });
   const promptPath = path.join(mediaDir, `${opt.slug}.prompt.txt`);
   const statusPath = path.join(mediaDir, 'status.json');
-  const status = { slug: opt.slug, arquivos_gerados: [], modelo: null, tokens: { entrada: 0, saida: 0 }, custo_estimado_usd: 0, latencia_ms: 0, imagem: { status: 'pendente', motivo: '' } };
+  const crypto = await import('node:crypto');
+const status = { slug: opt.slug, briefHash: crypto.default.createHash('sha256').update(`${opt.brief}|${opt.canal}`, 'utf8').digest('hex').slice(0, 16), arquivos_gerados: [], modelo: null, tokens: { entrada: 0, saida: 0 }, custo_estimado_usd: 0, latencia_ms: 0, imagem: { status: 'pendente', motivo: '' } };
   const started = performance.now();
   let output;
   if (!process.env.ANTHROPIC_API_KEY || opt.dryRun) {

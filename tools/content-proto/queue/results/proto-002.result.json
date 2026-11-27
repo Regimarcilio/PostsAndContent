@@ -1,0 +1,32 @@
+{
+  "slug": "proto-002",
+  "briefHash": "58f9c277c64f211f",
+  "canal": "ambos",
+  "dryRun": true,
+  "exitCode": 0,
+  "latency_ms": 211,
+  "stdout_tail": "{\n  \"slug\": \"proto-002\",\n  \"briefHash\": \"58f9c277c64f211f\",\n  \"arquivos_gerados\": [\n    \"04-midias/proto-002/proto-002.prompt.txt\",\n    \"02-conteudos/02-rascunhos/linkedin/proto-002.md\",\n    \"02-conteudos/02-rascunhos/medium/proto-002.md\",\n    \"04-midias/proto-002/status.json\"\n  ],\n  \"modelo\": null,\n  \"tokens\": {\n    \"entrada\": 0,\n    \"saida\": 0\n  },\n  \"custo_estimado_usd\": 0,\n  \"latencia_ms\": 0,\n  \"imagem\": {\n    \"status\": \"pendente\",\n    \"motivo\": \"PENDENTE API: execução solicitada em --dry-run; chamada à Anthropic não realizada.\"\n  }\n}\n",
+  "stderr_tail": "",
+  "status": {
+    "slug": "proto-002",
+    "briefHash": "58f9c277c64f211f",
+    "arquivos_gerados": [
+      "04-midias/proto-002/proto-002.prompt.txt",
+      "02-conteudos/02-rascunhos/linkedin/proto-002.md",
+      "02-conteudos/02-rascunhos/medium/proto-002.md",
+      "04-midias/proto-002/status.json"
+    ],
+    "modelo": null,
+    "tokens": {
+      "entrada": 0,
+      "saida": 0
+    },
+    "custo_estimado_usd": 0,
+    "latencia_ms": 0,
+    "imagem": {
+      "status": "pendente",
+      "motivo": "PENDENTE API: execução solicitada em --dry-run; chamada à Anthropic não realizada."
+    }
+  },
+  "at": "2026-11-27T11:08:42.611Z"
+}

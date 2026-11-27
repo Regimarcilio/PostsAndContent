@@ -16,6 +16,16 @@ cd /home/project/PROJETOS/PostsAndContent/tools/content-proto
 npm install
 ```
 
+## Fila / Worker (RF-012)
+
+Jobs em `queue/jobs/*.json`, resultados em `queue/results/*.result.json`.
+Veja `queue/README.md`.
+
+```bash
+node queue-worker.mjs
+node queue-worker.mjs --force
+```
+
 ## Variáveis de ambiente
 
 Copie `.env.example` para `.env` (nunca commite `.env`):
