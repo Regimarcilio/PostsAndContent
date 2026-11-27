@@ -38,10 +38,12 @@ permanece ligado a localhost.
 - O formulário aceita `Edição` ou `Documentação`. Edições pedem escolha entre
   LinkedIn, Medium e Ambos.
 - Os pedidos ficam em `.state/jobs.sqlite3` e são processados um por vez pelo
-  worker, com `opencode run --auto --model omniroute/Project-Free`. O modo automático
-  permite ao worker executar as ferramentas necessárias ao pedido sem depender de
-  uma confirmação em um terminal interativo. Configure outro modelo com
-  `EDITORIAL_OPENCODE_MODEL` se precisar.
+  worker. Por padrão (COM `EDITORIAL_CONTENT_PROTO=1`), pedidos editoriais usam
+  o fluxo `tools/content-proto` (API Anthropic → rascunho + status.json). Com
+  `EDITORIAL_CONTENT_PROTO=0`, volta ao worker `opencode run --auto --model
+  omniroute/Project-Free` (imagem GPT Image 2). Variáveis:
+  - `ANTHROPIC_API_KEY` — habilita chamada real; ausente = dry-run (pendente)
+  - `EDITORIAL_OPENCODE_MODEL` — modelo do modo opencode
 - Os rascunhos, assets e documentos são escritos no working tree do repositório.
 - A página atualiza a fila a cada cinco segundos, mostra os arquivos alterados,
   incorpora imagens, abre prévias HTML em um iframe isolado e mostra a evolução

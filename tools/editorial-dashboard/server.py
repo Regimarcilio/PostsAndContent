@@ -49,6 +49,8 @@ ALLOWED_USER = resolve_allowed_user()
 MAX_BODY = 32_000
 MAX_RUN_SECONDS = int(os.environ.get("EDITORIAL_JOB_TIMEOUT_SECONDS", "2700"))
 OPENCODE_MODEL = os.environ.get("EDITORIAL_OPENCODE_MODEL", "omniroute/Project-Free").strip()
+CONTENT_PROTO_ENABLED = os.environ.get("EDITORIAL_CONTENT_PROTO", "1").strip() not in {"0", "false", "no"}
+CONTENT_PROTO_DIR = ROOT / "tools" / "content-proto"
 worker_stop = threading.Event()
 
 STATUSES = {
@@ -268,6 +270,62 @@ def changed_artifacts(started_ns: int) -> list[dict]:
     return sorted(artifacts, key=lambda item: item["path"].casefold())
 
 
+def slugify(text: str, max_len: int = 50) -> str:
+    import unicodedata
+    normalized = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+    slug = re.sub(r"[^a-z0-9]+", "-", normalized.lower()).strip("-")
+    return (slug or "pedido")[:max_len].strip("-") or "pedido"
+
+
+def run_content_proto(row: sqlite3.Row) -> tuple[int, str, list[dict]]:
+    """Executa o fluxo novo (content-proto) para pedidos editoriais.
+
+    Gera slug estável por pedido, enfileira em queue/jobs/<slug>.json,
+    roda generate-draft.mjs e coleta status.json como artefatos.
+    Retorna (returncode, output_resumo, artifacts).
+    """
+    channel_map = {"LinkedIn": "linkedin", "Medium": "medium", "Ambos": "ambos"}
+    canal = channel_map.get(row["channel"], "ambos")
+    slug = f"{datetime.now(timezone.utc).strftime('%Y-%m-%d')}-job-{row['id'][:6]}"
+    brief = row["title"]
+    if row["details"]:
+        brief += f"\n\n{row['details']}"
+    brief += f"\n\nCanal: {row['channel'] or 'Ambos'}"
+    node = shutil.which("node")
+    if not node:
+        return 1, "", []
+    script = CONTENT_PROTO_DIR / "generate-draft.mjs"
+    jobs_dir = CONTENT_PROTO_DIR / "queue" / "jobs"
+    try:
+        jobs_dir.mkdir(parents=True, exist_ok=True)
+        (jobs_dir / f"{slug}.json").write_text(
+            json.dumps({"slug": slug, "brief": brief, "canal": canal, "dryRun": not bool(os.environ.get("ANTHROPIC_API_KEY"))},
+                       ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    except OSError:
+        pass
+    started_ns = time.time_ns()
+    args = [node, str(script), "--brief", brief, "--slug", slug, "--canal", canal]
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        args.append("--dry-run")
+    try:
+        result = subprocess.run(args, cwd=str(CONTENT_PROTO_DIR), capture_output=True,
+                                text=True, timeout=MAX_RUN_SECONDS, check=False)
+    except subprocess.TimeoutExpired:
+        return 1, "", []
+    output = ((result.stdout or "") + ("\n" + result.stderr if result.stderr else ""))[-100_000:]
+    status = None
+    try:
+        status_path = ROOT / "Posts e Conhecimento" / "04-midias" / slug / "status.json"
+        status = json.loads(status_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        status = None
+    artifacts = changed_artifacts(started_ns)
+    summary = f"content-proto slug={slug} exit={result.returncode} imagem={(status or {}).get('imagem', {}).get('status', '?')}"
+    return result.returncode, f"{summary}\n{output}", artifacts
+
+
 def next_job() -> sqlite3.Row | None:
     with connect_db() as db:
         db.execute("BEGIN IMMEDIATE")
@@ -290,6 +348,23 @@ def run_worker() -> None:
         row = next_job()
         if row is None:
             worker_stop.wait(2)
+            continue
+        if row["task_type"] == "editorial" and CONTENT_PROTO_ENABLED:
+            try:
+                code, output, artifacts = run_content_proto(row)
+                if code == 0:
+                    update_job(
+                        row["id"], status="awaiting_review", output=output,
+                        error="", artifacts=json.dumps(artifacts, ensure_ascii=False),
+                    )
+                else:
+                    update_job(
+                        row["id"], status="failed", output=output,
+                        error=f"content-proto terminou com código {code}.",
+                        artifacts=json.dumps(artifacts, ensure_ascii=False),
+                    )
+            except Exception as exc:
+                update_job(row["id"], status="failed", error=f"{type(exc).__name__}: {exc}")
             continue
         if not shutil.which("opencode"):
             update_job(row["id"], status="failed", error="Não encontrei `opencode` no PATH deste serviço.")
