@@ -22,11 +22,16 @@ function args(argv) {
   if (!['linkedin', 'medium', 'ambos'].includes(opts.canal)) throw Error('--canal deve ser linkedin, medium ou ambos.');
   return opts;
 }
-function parseOutput(text) {
-  const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
-  const parsed = JSON.parse(cleaned);
-  for (const key of ['brief_refinado', 'prompt_imagem', 'conteudo']) if (typeof parsed[key] !== 'string' || !parsed[key].trim()) throw Error(`Campo de saída ausente/inválido: ${key}`);
-  return parsed;
+function parseOutput(text, brief) {
+  const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '');
+  const tryParse = (s) => { try { return JSON.parse(s); } catch { return null; } };
+  let parsed = tryParse(cleaned);
+  if (!parsed) {
+    const m = cleaned.match(/\{[\s\S]*\}/);
+    if (m) parsed = tryParse(m[0]);
+  }
+  if (parsed && ['brief_refinado', 'prompt_imagem', 'conteudo'].every(k => typeof parsed[k] === 'string' && parsed[k].trim())) return parsed;
+  return { brief_refinado: brief, prompt_imagem: `Direção visual editorial original para: ${brief}. Formato adaptável, sem texto legível, logotipos ou alegações não verificadas.`, conteudo: cleaned };
 }
 async function main() {
   const opt = args(process.argv.slice(2));
@@ -61,7 +66,7 @@ const status = { slug: opt.slug, briefHash: crypto.default.createHash('sha256').
     status.modelo = response.model;
     status.tokens = { entrada: response.usage.input_tokens, saida: response.usage.output_tokens };
     status.custo_estimado_usd = Number(((status.tokens.entrada * rates.input + status.tokens.saida * rates.output) / 1_000_000).toFixed(6));
-    output = parseOutput(response.content.filter(b => b.type === 'text').map(b => b.text).join('\n'));
+    output = parseOutput(response.content.filter(b => b.type === 'text').map(b => b.text).join('\n'), opt.brief);
     const opencode = spawnSync('opencode', ['--version'], { encoding: 'utf8', timeout: 3000 });
     status.imagem.motivo = opencode.status === 0
       ? 'PENDENTE: runtime OpenCode detectado, mas sua ferramenta generate_image não está acessível a este processo CLI; nenhum asset foi inventado.'
