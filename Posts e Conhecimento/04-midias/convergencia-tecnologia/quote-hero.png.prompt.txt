@@ -1,0 +1,10 @@
+# quote-hero.png - Série Tecnologia e Avanços
+
+**Descrição**: quote-hero
+
+**Prompt para GPT Image**:
+Hero quote visual: Large text "A revolução da tecnologia foi sempre sobre poder. Agora, enfrentamos o desafio de sabedoria." - Author attribution below. Subtle background gradient, professional typography, centered composition. Clean minimalist design suitable for social media sharing.
+
+**Caminho da imagem**: 04-midias/convergencia-tecnologia/quote-hero.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

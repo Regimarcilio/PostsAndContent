@@ -31,18 +31,33 @@ O adaptador de raiz aponta para `Posts e Conhecimento/.opencode/skills` e
 canônicos. Se OpenCode for iniciado diretamente dentro de `Posts e Conhecimento/`,
 o adaptador local existente continua válido.
 
-## Imagens
+## Painel móvel e fila local
 
-Codex é o agente responsável por criar imagens originais quando uma publicação precisa
-de um asset novo. Use `publication-image-generation` e o gerador GPT disponível no
-runtime Codex. Salve o candidato em `Posts e Conhecimento/04-midias/<slug>/`, registre
-o caminho relativo no rascunho e revise a imagem antes de entregá-la.
+O painel compartilhado fica em `../tools/editorial-dashboard/` e é descrito no
+`README.md` da própria ferramenta. Codex e OpenCode herdam suas regras pela
+instrução de entrada `AGENTS.md`; o painel usa OpenCode como worker para pedidos
+de edição ou documentação. A fila SQLite e os pedidos ficam no PC. A página só
+é servida pela rede privada do Tailscale e registra arquivos para aprovação;
+aprovar não publica, não envia e não faz commit/push.
 
-OpenCode pode revisar e referenciar o arquivo compartilhado, mas não deve gerar uma
-alternativa nem compor um novo asset. Ao usar a skill de LinkedIn, use seus passos de
-texto, verificações e preview; encaminhe a criação de imagens estáticas ao Codex. Se a ferramenta de imagem GPT não estiver disponível no ambiente Codex,
-informe a limitação; não troque de provedor, não use uma API key e não crie placeholder.
-Gerar um arquivo local não aprova publicação, upload ou agendamento.
+## Imagem e prévia automáticas
+
+O adaptador raiz configura `experimental.image_generate.model` como
+`openai/gpt-image-2`. Em cada pedido editorial, a imagem é prioridade assim que
+o ângulo e o conceito visual estiverem definidos. No OpenCode 2.2.1 ou superior,
+conecte a conta Codex em `/connect`; o comando `/criar-conteudo` tenta chamar
+`generate_image`, salva a arte em `Posts e Conhecimento/04-midias/<slug>/` e
+registra o caminho nos rascunhos. Depois de completar a edição, gera e abre
+imediatamente o dashboard HTML com textos, idiomas e mídias. No OpenCode Desktop,
+a skill abre o arquivo na visualização do workspace. No CLI, retorna o caminho
+local clicável.
+
+A geração de imagem é experimental e depende do runtime/modelo estar disponível.
+Se `generate_image` não aparecer ou a autenticação Codex não fornecer GPT Image 2,
+marque a imagem como pendente, informe o bloqueio e não use chave de API, outro
+provedor ou placeholder. OpenCode 1.x, incluindo 1.19.5, não oferece essa
+integração; atualize para 2.2.1+ antes de esperar o fluxo totalmente automático.
+Gerar arquivos locais não aprova publicação, upload ou agendamento.
 
 ## Limites externos
 

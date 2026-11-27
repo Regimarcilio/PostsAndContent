@@ -1,0 +1,10 @@
+# scenarios-timeline.png - Série Tecnologia e Avanços
+
+**Descrição**: scenarios-timeline
+
+**Prompt para GPT Image**:
+Timeline showing 3 scenarios (Optimistic, Realistic, Risky) for 2030, 2040, 2050. Each scenario with key developments: AI adoption, quantum utility, space economy, biotech, governance. Color-coded: green for optimistic, yellow for realistic, red for risky. Clean horizontal timeline with three parallel lines.
+
+**Caminho da imagem**: 04-midias/convergencia-tecnologia/scenarios-timeline.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

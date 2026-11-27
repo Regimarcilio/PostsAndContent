@@ -1,0 +1,10 @@
+# heterogeneous-stack.png - Série Tecnologia e Avanços
+
+**Descrição**: heterogeneous-stack
+
+**Prompt para GPT Image**:
+Heterogeneous computing stack diagram showing different processors for different workloads. Bottom: Silicon (general purpose). Above: GPU (parallel compute). Above: NPU (AI inference). Above: QPU (quantum optimization). Top: Photonic (speed of light). Data flows up/down. Clean technical architecture diagram, engineering style, clear labels, professional.
+
+**Caminho da imagem**: 04-midias/quantum-neuromorphic-hardware/heterogeneous-stack.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

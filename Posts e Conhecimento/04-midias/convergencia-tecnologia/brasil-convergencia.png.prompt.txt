@@ -1,0 +1,10 @@
+# brasil-convergencia.png - Série Tecnologia e Avanços
+
+**Descrição**: brasil-convergencia
+
+**Prompt para GPT Image**:
+Brazil-focused infographic showing strategic advantages: 1) Amazon biodiversity + AI for bioeconomy. 2) Renewable energy + data centers for green AI. 3) Talent + remote work for global export. 4) Agriculture + precision farming. 5) Space connectivity via Starlink. Clean map of Brazil with icons, modern design, green/blue color scheme.
+
+**Caminho da imagem**: 04-midias/convergencia-tecnologia/brasil-convergencia.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

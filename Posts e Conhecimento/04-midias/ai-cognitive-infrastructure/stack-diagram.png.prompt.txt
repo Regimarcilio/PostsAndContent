@@ -1,0 +1,10 @@
+# stack-diagram.png - Série Tecnologia e Avanços
+
+**Descrição**: stack-diagram
+
+**Prompt para GPT Image**:
+Vertical stack diagram of AI infrastructure layers. Bottom: GPUs/TPUs/Data Centers. Then: Foundation Models (GPT, Claude, Gemini). Then: Tools/APIs (RAG, Function Calling). Then: Agent Orchestration (LangGraph, CrewAI). Top: Applications (Cursor, Notion AI, Harvey). Clean technical infographic style, blue color scheme, clean typography, sans-serif labels.
+
+**Caminho da imagem**: 04-midias/ai-cognitive-infrastructure/stack-diagram.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

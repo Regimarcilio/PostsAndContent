@@ -1,0 +1,10 @@
+# convergence-flywheel.png - Série Tecnologia e Avanços
+
+**Descrição**: convergence-flywheel
+
+**Prompt para GPT Image**:
+Flywheel diagram showing technological convergence: 5 interconnected circles representing AI Generative, Heterogeneous Hardware, Biology, Energy Fusion, Space. Each circle has an icon and connects with arrows to center point where human silhouette makes decision. Colorful but professional, infographic style with clean lines, modern tech aesthetic.
+
+**Caminho da imagem**: 04-midias/convergencia-tecnologia/convergence-flywheel.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

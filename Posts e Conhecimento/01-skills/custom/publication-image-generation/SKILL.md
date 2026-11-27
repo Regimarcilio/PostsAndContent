@@ -1,31 +1,38 @@
 ---
 name: publication-image-generation
-description: Use when a Medium or LinkedIn draft needs an original image; generate the asset with the GPT image-generation capability available in Codex and track it in the editorial draft.
+description: Use for every Medium or LinkedIn editorial request; prioritize an original GPT-generated image and track it in the channel drafts.
 ---
 
 # Publication image generation
 
-Codex owns generation of original publication images in this project. Use the
-GPT image-generation tool available in the active Codex runtime. OpenCode may
-review and reference the resulting asset but must not generate, render, or
-compose a replacement. The LinkedIn skill may still be used for copy, checks,
-and previews; route static image creation to this skill.
+Codex owns the image model and visual quality. In OpenCode 2.2.1 or later, use
+OpenCode's native `generate_image` tool with the user's Codex sign-in and the
+configured `openai/gpt-image-2` model. This is the automatic handoff path: do not
+ask the user to move the brief to another session. In a Codex session, use its
+built-in GPT image generation capability directly.
 
 ## Workflow
 
-1. Read the project `AGENTS.md`, `config.yml`, the relevant draft, its source
-   material, and `04-midias/` assets for the same topic.
-2. Decide whether the publication needs a new image. Reuse an appropriate,
-   rights-cleared existing asset when one already fits; do not create redundant
-   variants. If no image is needed, say so and continue without one.
+1. Read the project `AGENTS.md`, `config.yml`, the source material, and
+   `04-midias/` assets for the same topic. Identify the central angle and audience
+   before drafting the image brief.
+2. Treat one original image as a standard deliverable for every editorial
+   request. Build the visual concept as soon as the angle is clear and generate
+   the image before polishing the final channel drafts. Create one new original
+   image for each editorial concept. For LinkedIn and Medium versions of the
+   same concept, reuse that image when it fits both placements. An explicit
+   text-only request overrides this default.
 3. Build the image brief from the publication's actual topic, audience, channel,
    visual hierarchy, aspect ratio, and intended placement. Do not add factual
    claims, logos, signatures, or legible text unless the user requests them and
    the source material supports them. For animated assets, follow
    `animated-content-us-english`.
-4. Generate with the GPT image tool. If that capability is unavailable in the
-   current Codex runtime, stop and report the limitation. Do not call an API,
-   use Midjourney, fabricate a placeholder, or silently switch providers.
+4. Attempt generation with the GPT image tool. In OpenCode, confirm that
+   `generate_image` is available and select the configured GPT Image 2 model. If
+   the capability is unavailable, report the runtime limitation and mark the
+   image as pending while completing the text and dashboard without implying an
+   image exists. Do not call an API, use Midjourney, fabricate a placeholder,
+   or silently switch providers.
    Do not use the LinkedIn skill's local image-rendering scripts as a substitute
    for GPT-generated publication artwork.
 5. Save the generated result under

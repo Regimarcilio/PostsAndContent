@@ -1,0 +1,10 @@
+# timeline.png - Série Tecnologia e Avanços
+
+**Descrição**: timeline
+
+**Prompt para GPT Image**:
+Horizontal timeline showing AI evolution from 2012 to 2025+. 2012: Deep Learning (AlexNet). 2017: Transformers. 2020: GPT-3. 2022: ChatGPT. 2023: GPT-4/Claude/Gemini. 2024: Autonomous Agents. 2025+: AI OS. Each milestone with icon and brief description. Clean minimalist design, modern tech style, horizontal layout.
+
+**Caminho da imagem**: 04-midias/ai-cognitive-infrastructure/timeline.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

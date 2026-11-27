@@ -213,7 +213,7 @@ skills:
     - id: publication-image-generation
       path: 01-skills/custom/publication-image-generation
       entrypoint: 01-skills/custom/publication-image-generation/SKILL.md
-      purpose: Gerar no Codex imagens originais com a ferramenta GPT disponível e registrar os assets locais nos rascunhos.
+      purpose: Priorizar uma imagem GPT original em cada pedido editorial e registrar o asset local nos rascunhos dos canais.
       channels: [medium, linkedin]
       inputs:
         - 02-conteudos/02-rascunhos/medium
@@ -225,6 +225,7 @@ skills:
         - 02-conteudos/02-rascunhos/medium
         - 02-conteudos/02-rascunhos/linkedin
       external_action_requires_approval: true
+      default_for_every_editorial_request: true
       enabled: true
 
 knowledge:
@@ -253,7 +254,6 @@ knowledge:
       last_verified_required: true
       enabled: true
   custom: []
-  # Adicione conceitos, projetos, casos, glossarios ou dominios novos aqui.
 
 data:
   directories:
@@ -278,7 +278,6 @@ data:
       optional: true
       enabled: true
   custom: []
-  # Registre cada dataset ou exportacao antes de usa-lo como evidencia.
 
 channels:
   medium:
@@ -305,7 +304,13 @@ workflows:
       - choose_channel
   medium-draft:
     skill_ids: [online-writing, media-reference-tracking, publication-image-generation, editorial-preview]
-    final_step: render_editorial_preview
+    steps:
+      - choose_angle_and_visual_concept
+      - generate_or_attempt_gpt_image
+      - draft_and_review_channel_text
+      - render_editorial_dashboard
+      - open_dashboard_immediately_when_runtime_supports
+    final_step: open_editorial_dashboard
     input_paths:
       [00-inbox, 02-conteudos/01-ideias, 03-referencias, 06-conhecimentos]
     output_path: 02-conteudos/02-rascunhos/medium
@@ -323,6 +328,12 @@ workflows:
       ]
     output_path: 02-conteudos/02-rascunhos/linkedin
     operational_path: work
+    steps:
+      - choose_angle_and_visual_concept
+      - generate_or_attempt_gpt_image
+      - draft_and_review_channel_text
+      - render_editorial_dashboard
+      - open_dashboard_immediately_when_runtime_supports
     approval_gate: human_review
   publish:
     allowed_after:
@@ -331,50 +342,35 @@ workflows:
       - source_review
       - link_review
     approval_gate: explicit_user_confirmation
+  mobile-request-dashboard:
+    entrypoint: ../tools/editorial-dashboard/server.py
+    purpose: Receber pelo celular pedidos de edição ou documentação, enfileirar o trabalho no PC e apresentar os arquivos para aprovação.
+    task_types: [editorial, documentation]
+    queue_store: ../tools/editorial-dashboard/.state/jobs.sqlite3
+    steps:
+      - authenticate_request_through_tailscale_serve
+      - persist_job_in_local_sqlite_queue
+      - process_jobs_serially_with_opencode_run
+      - collect_changed_files_for_mobile_review
+      - record_approval_or_revision_feedback
+    approval_gate: human_review
+    external_actions_require_separate_approval: [publish, schedule, send, git_commit, git_push]
   custom:
     - id: editorial-content-creation
       command: .opencode/commands/criar-conteudo.md
-      purpose: Criar rascunhos editoriais com escolha explicita de canal e entregar a prévia ao concluir artigos.
+      purpose: Criar rascunhos editoriais com escolha explicita de canal, imagem prioritária e dashboard aberto ao concluir a edição.
       channels: [medium, linkedin]
       steps:
         - choose_channel
-        - create_and_review_drafts
-        - generate_images_in_codex_when_needed
-        - render_editorial_preview_when_article_created
-        - deliver_drafts_and_preview
+        - research_and_set_angle_and_visual_concept
+        - prioritize_gpt_image_generation
+        - create_and_review_channel_drafts
+        - render_editorial_dashboard_with_texts_languages_and_media
+        - open_dashboard_immediately_when_runtime_supports
+        - deliver_drafts_dashboard_and_pending_checks
       approval_gate: human_review
     - id: media-reference-audit
       command: .opencode/commands/listar-midias-sem-uso.md
       purpose: Listar midias usadas por canal, sem uso e com referencias quebradas, sem excluir arquivos.
       channels: [medium, linkedin]
       approval_gate: none
-
-content:
-  naming:
-    pattern: YYYY-MM-DD-slug-do-conteudo.md
-    slug_style: lowercase-kebab-case
-  metadata:
-    recommended:
-      - title
-      - channel
-      - status
-      - created_at
-      - updated_at
-      - sources
-      - claims_to_verify
-  statuses:
-    - idea
-    - draft
-    - review
-    - approved
-    - published
-    - archived
-  quality_gates:
-    - claims_have_sources_or_are_marked_as_opinion
-    - numbers_are_verifiable
-    - links_are_reviewed
-    - media_rights_are_known
-    - channel_constraints_are_checked
-    - animated_media_uses_us_english
-    - linkedin_character_limit_checked
-    - linkedin_content_maximizes_useful_detail

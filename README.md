@@ -8,12 +8,12 @@ O repositório reúne instruções, skills, referências, rascunhos e mídias em
 
 - **Fluxo editorial com escolha de canal:** LinkedIn, Medium ou ambos, definidos antes da redação.
 - **Skills reutilizáveis:** escrita online, LinkedIn, revisão, bilinguidade, rastreamento de mídia e workflows auxiliares.
-- **Imagem editorial com GPT:** Codex gera as imagens originais de publicação e as salva junto aos assets do projeto. OpenCode pode revisá-las e referenciá-las.
-- **Prévia para revisão:** geração de HTML com as versões completas de LinkedIn e Medium e seus recursos visuais.
+- **Imagem editorial prioritária:** cada pedido de edição ou postagem começa o desenvolvimento de uma imagem original com GPT assim que o ângulo está definido.
+- **Dashboard de revisão:** após concluir textos, idiomas e mídia, o fluxo gera e abre imediatamente o HTML com os detalhes completos de postagem.
 - **Rastreabilidade:** fontes, afirmações pendentes e referências de mídia permanecem associadas aos rascunhos.
 - **Aprovação humana:** publicar, agendar, fazer upload ou enviar conteúdo requer aprovação explícita.
 
-Este é um repositório de conteúdo e instruções para agentes, não um aplicativo com servidor ou banco de dados.
+O conteúdo editorial continua em `Posts e Conhecimento/`. O repositório também inclui um painel local auxiliar para criar pedidos pelo celular, processá-los no PC e revisar os arquivos antes de qualquer envio externo.
 
 ## Começar
 
@@ -21,8 +21,9 @@ Este é um repositório de conteúdo e instruções para agentes, não um aplica
 
 - Git.
 - Codex ou OpenCode.
+- Para o painel móvel: Python 3.10+, Tailscale no PC e no celular, e OpenCode autenticado no PC.
 - Para prévias editoriais: Python 3.9+ e Pandoc.
-- Para geração de imagens: ferramenta GPT de geração de imagem disponível no runtime Codex.
+- Para geração automática no OpenCode: versão 2.2.1+, conexão Codex e ferramenta experimental `generate_image` disponível.
 
 Clone o repositório e abra a **raiz `PostsAndContent`** no agente:
 
@@ -42,12 +43,21 @@ Antes de produzir conteúdo, consulte [`AGENTS.md`](AGENTS.md), [`Posts e Conhec
 1. Coloque fontes em `Posts e Conhecimento/00-inbox/` e ideias em `Posts e Conhecimento/02-conteudos/01-ideias/`.
 2. Escolha `LinkedIn`, `Medium` ou `Ambos` quando o agente perguntar.
 3. Consulte as fontes e skills relevantes; preserve a origem das afirmações.
-4. Salve cada rascunho no diretório do canal em `Posts e Conhecimento/02-conteudos/02-rascunhos/`.
-5. Quando o conteúdo precisar de uma imagem original, peça ao Codex para gerá-la com a ferramenta GPT e salvá-la em `Posts e Conhecimento/04-midias/<slug>/`.
-6. Revise texto, fatos, links, direitos e mídias. Gere a prévia HTML quando houver artigo.
+4. Assim que o ângulo estiver definido, priorize uma imagem GPT original para cada edição/post e salve em `Posts e Conhecimento/04-midias/<slug>/`.
+5. Finalize e salve os rascunhos de cada canal, registrando a mídia e os detalhes de postagem.
+6. Com a edição completa, gere e abra imediatamente o dashboard HTML; no CLI ou quando não houver ação de abertura, retorne o caminho e informe que o arquivo não foi aberto.
 7. Mova conteúdo para `04-publicados/` somente após a aprovação humana e a publicação efetiva.
 
-OpenCode pode criar e revisar os rascunhos, mas não gera uma imagem alternativa. Se a ferramenta de imagem GPT não estiver disponível no Codex, o fluxo informa a limitação e não troca de provedor.
+Em versões antigas do OpenCode (como 1.19.5), `generate_image` não está disponível. Atualize para 2.2.1 ou mais recente e conecte a conta Codex; sem isso, o fluxo informa a limitação e não troca de provedor.
+
+## Painel móvel via Tailscale
+
+O painel em [`tools/editorial-dashboard/`](tools/editorial-dashboard/README.md)
+aceita pedidos de edição ou documentação, mantém uma fila local em SQLite e
+executa o worker OpenCode no PC. O celular acessa a página por um endereço HTTPS
+privado do Tailscale Serve; instale e conecte o Tailscale também no celular.
+O serviço escuta em localhost e valida sua identidade Tailscale. A aprovação no
+painel não publica conteúdo nem faz commit ou push.
 
 ## Integração dos agentes
 
@@ -64,6 +74,7 @@ Os arquivos canônicos continuam em `Posts e Conhecimento/`. Os launchers do Cod
 .
 ├── .agents/skills/                 # Launchers de skills descobertos pelo Codex
 ├── .opencode/                      # Configuração e comandos do OpenCode
+├── tools/editorial-dashboard/      # Painel móvel, fila local e worker OpenCode
 ├── Posts e Conhecimento/
 │   ├── .online-writing/            # Perfil editorial do autor
 │   ├── .opencode/                  # Fontes dos comandos e roteador editorial

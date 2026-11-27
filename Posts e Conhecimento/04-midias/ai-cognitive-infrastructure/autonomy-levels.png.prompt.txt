@@ -1,0 +1,10 @@
+# autonomy-levels.png - Série Tecnologia e Avanços
+
+**Descrição**: autonomy-levels
+
+**Prompt para GPT Image**:
+Ladder diagram showing 6 levels of AI agent autonomy. Level 0: Chat (no autonomy). Level 1: Tool usage (Copilot). Level 2: Multi-step tasks (Cursor, Devin). Level 3: Goal planning (Factory, AutoGen). Level 4: Self-improvement (AutoGPT v2). Level 5: Organization of agents (autonomous company). Each level with icon, description, and 2024 status indicators. Clean vertical infographic.
+
+**Caminho da imagem**: 04-midias/ai-cognitive-infrastructure/autonomy-levels.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

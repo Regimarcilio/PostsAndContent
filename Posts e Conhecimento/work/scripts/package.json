@@ -1,0 +1,25 @@
+{
+  "name": "editorial-series-automation",
+  "version": "1.0.0",
+  "description": "Scripts de automação para processamento de imagens e conteúdo editorial",
+  "main": "auto-image-generator.js",
+  "scripts": {
+    "generate": "node auto-image-generator.js --series tecnologia-avancos",
+    "watch": "node watch-generate-images.js --watch",
+    "check": "node auto-image-generator.js --dry-run",
+    "once": "node watch-generate-images.js --once",
+    "interval": "node watch-generate-images.js --interval 300000",
+    "help": "node auto-image-generator.js --help"
+  },
+  "keywords": [
+    "editorial",
+    "automation",
+    "gpt-image",
+    "ai-content"
+  ],
+  "author": "Equipe Editorial",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.5.3"
+  }
+}

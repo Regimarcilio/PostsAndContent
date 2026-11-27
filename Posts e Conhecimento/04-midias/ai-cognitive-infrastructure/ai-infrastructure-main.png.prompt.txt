@@ -1,0 +1,10 @@
+# ai-infrastructure-main.png - Série Tecnologia e Avanços
+
+**Descrição**: ai-infrastructure-main
+
+**Prompt para GPT Image**:
+Futuristic tech illustration showing the evolution from traditional workflow to AI agent orchestration. Left side: human workers manually coding, designing, analyzing - grayscale, traditional office setting. Right side: human strategist overseeing network of AI agents (LLM, code generator, designer, researcher) connected by glowing neural pathways. Central concept: "cognitive infrastructure" as the new internet-like utility. Clean corporate style, modern tech aesthetic, blue/purple gradient with orange accents for human elements. Professional B2B illustration style. Aspect ratio 16:9.
+
+**Caminho da imagem**: 04-midias/ai-cognitive-infrastructure/ai-infrastructure-main.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

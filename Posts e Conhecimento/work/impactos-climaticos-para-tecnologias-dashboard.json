@@ -1,0 +1,34 @@
+{
+  "topic": "Impactos climáticos para tecnologias",
+  "channels": [
+    "medium",
+    "linkedin"
+  ],
+  "languages": [
+    "pt-BR",
+    "en"
+  ],
+  "drafts": {
+    "medium": "02-conteudos/02-rascunhos/medium/2026-11-26-impactos-climaticos-para-tecnologias-bilingual.md",
+    "linkedin": "02-conteudos/02-rascunhos/linkedin/2026-11-26-impactos-climaticos-para-tecnologias-bilingual.md"
+  },
+  "word_counts": {
+    "medium": {
+      "pt-BR": 1084,
+      "en": 963
+    }
+  },
+  "character_counts": {
+    "linkedin": {
+      "pt-BR": 1255,
+      "en": 1241
+    }
+  },
+  "media": {
+    "slug": "impactos-climaticos-para-tecnologias",
+    "folder": "04-midias/impactos-climaticos-para-tecnologias",
+    "status": "pending",
+    "reason": "Native OpenCode generate_image failed: Model \"openai/gpt-image-2\" is not an available image model. No alternate provider or placeholder was used."
+  },
+  "preview": "work/previews/impactos-climaticos-dashboard.html"
+}

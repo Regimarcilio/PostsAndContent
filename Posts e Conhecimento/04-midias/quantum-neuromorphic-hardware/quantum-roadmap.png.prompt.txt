@@ -1,0 +1,10 @@
+# quantum-roadmap.png - Série Tecnologia e Avanços
+
+**Descrição**: quantum-roadmap
+
+**Prompt para GPT Image**:
+Roadmap timeline from 2023 to 2035 showing quantum computing evolution. 2023-2025: NISQ era (50-100 qubits, noisy). 2025-2030: Early FTQC (100-1000 logical qubits). 2030-2035: Utility-scale (10K-1M qubits). Each era with icon, key milestone, and practical applications. Clean vertical timeline design, professional technical style, blue/purple color scheme.
+
+**Caminho da imagem**: 04-midias/quantum-neuromorphic-hardware/quantum-roadmap.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

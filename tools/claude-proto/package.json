@@ -1,0 +1,7 @@
+{
+  "name": "posts-and-content-claude-proto",
+  "private": true,
+  "type": "module",
+  "scripts": { "generate": "node generate-draft.mjs" },
+  "dependencies": { "@anthropic-ai/sdk": "^0.80.0" }
+}

@@ -1,0 +1,10 @@
+# risk-matrix.png - Série Tecnologia e Avanços
+
+**Descrição**: risk-matrix
+
+**Prompt para GPT Image**:
+Risk matrix with probability vs impact axes. Quadrants: Low-Low, Low-High, High-Low, High-High. Risks plotted: Concentration of Power, Misaligned AI, Bio-Digital Convergence, Spacetime Colonialism. Each risk with color-coded severity. Clean analytical design, professional, data visualization style.
+
+**Caminho da imagem**: 04-midias/convergencia-tecnologia/risk-matrix.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

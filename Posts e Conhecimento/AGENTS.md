@@ -1,6 +1,6 @@
 # Instrucoes do repositorio
 
-Este e um repositorio de conteudo editorial, nao um aplicativo. O objetivo e criar materiais para Medium e LinkedIn com OpenCode e Codex.
+Este e um repositorio de conteudo editorial, com um painel local auxiliar em `../tools/editorial-dashboard/`. O objetivo e criar materiais para Medium e LinkedIn com OpenCode e Codex. O codigo do painel fica fora do workspace editorial; conteudos, regras, skills e midias canonicas permanecem aqui.
 
 ## Ordem de leitura
 
@@ -91,22 +91,26 @@ Exemplo minimo:
 4. Crie o rascunho no diretorio do canal correto.
 5. Revise fatos, fontes, links, nomes, numeros, tom, direitos de uso e adequacao ao canal.
 6. Mova para `02-conteudos/03-revisao/` quando precisar de aprovacao ou revisao humana.
-7. Ao concluir a criação de um artigo, execute `01-skills/custom/editorial-preview/SKILL.md` e entregue o HTML com o post de LinkedIn e o artigo integral de Medium, inclusive quando o canal escolhido for só Medium.
+7. Ao concluir qualquer edição ou postagem, execute `01-skills/custom/editorial-preview/SKILL.md`: use o rascunho de LinkedIn para entregas só de LinkedIn e os dois canais quando houver artigo. Gere o dashboard HTML com os textos completos por idioma e as mídias registradas; abra-o imediatamente pela ação de preview do runtime quando disponível e entregue o link local.
 8. Mova somente conteudo aprovado para `02-conteudos/04-publicados/`.
 
 ## Geracao de imagens
 
-- Codex e responsavel por gerar toda imagem original de publicacao usando a ferramenta de geracao de imagens GPT disponivel no runtime, em qualquer canal.
-- Use `01-skills/custom/publication-image-generation/SKILL.md` quando o conteudo precisar de uma imagem nova.
-- Salve os candidatos em `04-midias/<slug>/` e registre o caminho relativo no proprio rascunho, em `Registro de mídias`.
-- OpenCode pode revisar e referenciar assets gerados pelo Codex; nao gere nem componha uma nova imagem no OpenCode. Ao usar `linkedin-skill`, use as etapas de texto, verificacao e preview, mas encaminhe a criacao de assets estaticos ao Codex.
+- Toda edição ou postagem inclui como padrão uma imagem original gerada por GPT. Assim que o ângulo e o conceito visual estiverem definidos, priorize a geração antes de finalizar os textos dos canais.
+- Use `01-skills/custom/publication-image-generation/SKILL.md` em cada pedido editorial. Para `Ambos`, reutilize a imagem nos dois canais quando ela atender aos formatos; gere uma composição adicional somente quando o uso exigir outro enquadramento.
+- No OpenCode 2.2.1+, use a ferramenta `generate_image` com a conexão Codex e GPT Image 2 na mesma execução. No Codex, use a capacidade GPT de geração de imagem disponível no runtime.
+- Salve o asset em `04-midias/<slug>/` e registre o caminho relativo em `Registro de mídias` de cada rascunho aplicável.
+- OpenCode pode chamar o modelo GPT do Codex por `generate_image`; isso nao autoriza trocar de provedor nem usar chave de API. Ao usar `linkedin-skill`, use suas etapas de texto, verificacao e preview.
 - Codex tambem nao deve usar os scripts locais de renderizacao de imagem da skill de LinkedIn como substitutos do gerador GPT.
-- Se a ferramenta GPT nao estiver disponivel no runtime Codex atual, informe a limitacao e nao troque silenciosamente de provedor.
+- Se a ferramenta GPT não estiver disponível, tente a capacidade configurada do runtime, informe a limitação e marque a imagem como pendente; não troque silenciosamente de provedor.
 - A geracao cria apenas assets locais de rascunho. Upload, agendamento e publicacao continuam exigindo aprovacao explicita.
 
 ## Seguranca editorial
 
 - Nunca invente fatos, metricas, fontes, depoimentos ou resultados.
+- Todo texto publicavel deve ser original: nao copie nem parafraseie de perto fontes, artigos, posts ou rascunhos de terceiros. Use fontes para verificar fatos e produza uma sintese com estrutura e linguagem proprias.
+- Cite a origem das afirmacoes verificaveis junto ao trecho e em `03-referencias/`. Use citacoes literais apenas quando forem indispensaveis, com aspas e atribuicao explícita.
+- Antes de aprovar um rascunho, confira se ha trechos ou estruturas distintivas reproduzidos das fontes consultadas ou de outros materiais do repositorio; reescreva-os e preserve a atribuicao dos fatos.
 - Nao publique nem agende nada sem aprovacao explicita do usuario.
 - Nao execute agendamento ou publicacao apenas porque um arquivo esta marcado como pronto.
 - Nao salve tokens, senhas, cookies ou chaves em arquivos do repositorio.

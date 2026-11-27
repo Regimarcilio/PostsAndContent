@@ -8,5 +8,10 @@
   "skills": [
     "./Posts e Conhecimento/.opencode/skills",
     "./Posts e Conhecimento/01-skills"
-  ]
+  ],
+  "experimental": {
+    "image_generate": {
+      "model": "openai/gpt-image-2"
+    }
+  }
 }

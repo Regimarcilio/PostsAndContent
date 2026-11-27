@@ -62,3 +62,7 @@ Consulte o `SKILL.md` relevante antes de executar um fluxo. Os arquivos dentro d
 Para abrir o mesmo projeto no Codex e no OpenCode, use a raiz do repositório
 `PostsAndContent`. O adaptador OpenCode nessa raiz e as skills locais do Codex
 encaminham para este diretório. Veja `MULTIPLATFORM-SETUP.md` para detalhes.
+
+O painel móvel é um serviço auxiliar no diretório `../tools/editorial-dashboard/`.
+Ele recebe pedidos e grava os resultados no working tree deste repositório;
+consulte o README do painel para executá-lo pelo Tailscale.

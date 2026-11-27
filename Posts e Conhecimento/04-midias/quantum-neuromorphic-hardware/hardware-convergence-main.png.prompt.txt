@@ -1,0 +1,10 @@
+# hardware-convergence-main.png - Série Tecnologia e Avanços
+
+**Descrição**: hardware-convergence-main
+
+**Prompt para GPT Image**:
+Technical convergence infographic showing 4 hardware layers converging into one system. Bottom layer: silicon chips with transistors (brown/gold). Middle layer: quantum processor with qubit arrays (blue/purple). Next layer: neuromorphic chip with spiking neural networks (green/orange). Top layer: photonic chip with light beams (white/cyan). All layers connect with golden arrows converging toward center where a human silhouette makes a decision. Clean technical diagram style, engineering aesthetic, sans-serif labels. Modern infographics design.
+
+**Caminho da imagem**: 04-midias/quantum-neuromorphic-hardware/hardware-convergence-main.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9

@@ -1,0 +1,20 @@
+{
+  "slug": "proto-claude-001",
+  "arquivos_gerados": [
+    "04-midias/proto-claude-001/proto-claude-001.prompt.txt",
+    "02-conteudos/02-rascunhos/linkedin/proto-claude-001.md",
+    "02-conteudos/02-rascunhos/medium/proto-claude-001.md",
+    "04-midias/proto-claude-001/status.json"
+  ],
+  "modelo": null,
+  "tokens": {
+    "entrada": 0,
+    "saida": 0
+  },
+  "custo_estimado_usd": 0,
+  "latencia_ms": 0,
+  "imagem": {
+    "status": "pendente",
+    "motivo": "PENDENTE API: execução solicitada em --dry-run; chamada à Anthropic não realizada."
+  }
+}

@@ -1,0 +1,10 @@
+# chip-comparison.png - Série Tecnologia e Avanços
+
+**Descrição**: chip-comparison
+
+**Prompt para GPT Image**:
+Comparison table infographic of 5 AI/ML chips. Columns: Chip name (Intel Loihi 2, BrainChip Akida, NVIDIA H100, Google TPU v5e, IBM NorthPole). Rows: Neurons/Synapses, Power (W), Latency (ms), Use case, Status. Clean grid layout, professional technical design, blue color scheme, easy to read fonts.
+
+**Caminho da imagem**: 04-midias/quantum-neuromorphic-hardware/chip-comparison.png
+**Formato**: PNG
+**Relação de aspecto**: 16:9
