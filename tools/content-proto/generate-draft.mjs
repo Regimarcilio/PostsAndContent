@@ -44,7 +44,14 @@ const status = { slug: opt.slug, briefHash: crypto.default.createHash('sha256').
     else status.imagem.motivo = 'PENDENTE API: execução solicitada em --dry-run; chamada à Anthropic não realizada.';
     output = { brief_refinado: opt.brief, prompt_imagem: `Direção visual editorial original para: ${opt.brief}. Formato adaptável a ${targets.join(' e ')}. Sem texto legível, logotipos ou alegações factuais não verificadas.`, conteudo: `# ${opt.brief}\n\nRascunho pendente de geração pela API Anthropic. Revise e complete antes de publicar.` };
   } else {
-    const { default: Anthropic } = await import('@anthropic-ai/sdk');
+    let Anthropic = null;
+    try {
+      ({ default: Anthropic } = await import('@anthropic-ai/sdk'));
+    } catch {
+      status.imagem.motivo = 'PENDENTE API: pacote @anthropic-ai/sdk não instalado; rode npm install em tools/content-proto ou use --dry-run.';
+      output = { brief_refinado: opt.brief, prompt_imagem: `Direção visual editorial original para: ${opt.brief}. Formato adaptável a ${targets.join(' e ')}. Sem texto legível, logotipos ou alegações factuais não verificadas.`, conteudo: `# ${opt.brief}\n\nRascunho pendente de geração pela API Anthropic. Revise e complete antes de publicar.` };
+    }
+    if (output === undefined) {
     const client = new Anthropic();
     const response = await client.messages.create({
       model: MODEL, max_tokens: 16000,
@@ -59,6 +66,7 @@ const status = { slug: opt.slug, briefHash: crypto.default.createHash('sha256').
     status.imagem.motivo = opencode.status === 0
       ? 'PENDENTE: runtime OpenCode detectado, mas sua ferramenta generate_image não está acessível a este processo CLI; nenhum asset foi inventado.'
       : 'PENDENTE: ferramenta de geração GPT Image 2 não acessível neste processo; nenhum asset foi inventado.';
+    }
   }
   status.latencia_ms = Math.round(performance.now() - started);
   await fs.writeFile(promptPath, `Brief refinado: ${output.brief_refinado}\n\nPrompt de imagem:\n${output.prompt_imagem}\n`, { flag: 'wx' }).catch(async e => { if (e.code !== 'EEXIST') throw e; await fs.writeFile(promptPath, `Brief refinado: ${output.brief_refinado}\n\nPrompt de imagem:\n${output.prompt_imagem}\n`); });
