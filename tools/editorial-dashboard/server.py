@@ -322,6 +322,18 @@ def run_content_proto(row: sqlite3.Row) -> tuple[int, str, list[dict]]:
     except (OSError, json.JSONDecodeError):
         status = None
     artifacts = changed_artifacts(started_ns)
+    # Incluir arquivos de mídia do slug (inclusive imagens geradas) mesmo se não
+    # forem detectados como "changed" (ex.: geradas pelo worker em etapa posterior).
+    media_dir = ROOT / "Posts e Conhecimento" / "04-midias" / slug
+    try:
+        for p in sorted(media_dir.iterdir()):
+            if p.is_file() and p.suffix.lower() in ARTIFACT_EXTENSIONS:
+                rel = p.relative_to(ROOT).as_posix()
+                if not any(a["path"] == rel for a in artifacts):
+                    artifacts.append({"path": rel, "name": p.name, "size": p.stat().st_size,
+                                     "kind": p.suffix.lower().lstrip(".")})
+    except OSError:
+        pass
     summary = f"content-proto slug={slug} exit={result.returncode} imagem={(status or {}).get('imagem', {}).get('status', '?')}"
     return result.returncode, f"{summary}\n{output}", artifacts
 
