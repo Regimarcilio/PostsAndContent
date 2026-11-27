@@ -95,6 +95,11 @@ const status = { slug: opt.slug, briefHash: crypto.default.createHash('sha256').
     await fs.writeFile(draftPath, draft);
     status.arquivos_gerados.push(path.relative(editorial, draftPath));
   }
+  // Preview completo para celular: HTML com imagem + texto do rascunho.
+  const previewPath = path.join(mediaDir, `${opt.slug}.preview.html`);
+  const previewHtml = `<!doctype html><html lang=pt-BR><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>${opt.slug}</title><style>body{font-family:system-ui,sans-serif;max-width:720px;margin:0 auto;padding:16px;background:#f3f6fa;color:#172234}img{width:100%;border-radius:12px}pre{white-space:pre-wrap;background:#fff;padding:16px;border-radius:12px;border:1px solid #dce3eb}h1{font-size:20px}</style></head><body><h1>${opt.slug}</h1><img src="./${opt.slug}.png" alt="imagem do post" onerror="this.style.display='none'"><pre>${output.conteudo.replace(/</g,'&lt;')}</pre></body></html>`;
+  await fs.writeFile(previewPath, previewHtml);
+  status.arquivos_gerados.push(path.relative(editorial, previewPath));
   status.arquivos_gerados.push(path.relative(editorial, statusPath));
   await fs.writeFile(statusPath, `${JSON.stringify(status, null, 2)}\n`);
   console.log(JSON.stringify(status, null, 2));
